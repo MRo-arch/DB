@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Team-Übersicht{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <h1>Team-Übersicht</h1>
+  <p class="page-subtitle">Jahresziele {{ data.year }} · Fortschritt und Status aller Teammitglieder</p>
+  <div class="legend">
+    <span class="rag-badge green">Grün: ≥ 75%</span>
+    <span class="rag-badge amber">Gelb: 40–74%</span>
+    <span class="rag-badge red">Rot: &lt; 40%</span>
+  </div>
+</section>
+
+<div class="team-stats-bar">
+  {% set green_count = members | selectattr('rag', 'equalto', 'green') | list | length %}
+  {% set amber_count = members | selectattr('rag', 'equalto', 'amber') | list | length %}
+  {% set red_count = members | selectattr('rag', 'equalto', 'red') | list | length %}
+  <div class="stat-item">
+    <span class="stat-num green-text">{{ green_count }}</span>
+    <span class="stat-label">Im Plan</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num amber-text">{{ amber_count }}</span>
+    <span class="stat-label">Beobachten</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num red-text">{{ red_count }}</span>
+    <span class="stat-label">Handlungsbedarf</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">{{ members | length }}</span>
+    <span class="stat-label">Gesamt</span>
+  </div>
+</div>
+
+<div class="team-grid">
+  {% for member in members %}
+  <a href="/member/{{ member.id }}" class="member-card rag-border-{{ member.rag }}">
+    <div class="card-top">
+      <div class="avatar">{{ member.name[0] }}</div>
+      <div class="card-identity">
+        <h2 class="member-name">{{ member.name }}</h2>
+        <p class="member-role">{{ member.role }}</p>
+      </div>
+      <span class="rag-badge {{ member.rag }}">{{ member.rag | upper }}</span>
+    </div>
+
+    <div class="card-progress">
+      <div class="progress-label">
+        <span>Gesamtfortschritt</span>
+        <strong>{{ member.progress }}%</strong>
+      </div>
+      <div class="progress-bar-outer">
+        <div class="progress-bar-inner {{ member.rag }}" style="width: {{ member.progress }}%"></div>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <span class="card-kpi-count">{{ member.total }} KPI{% if member.total != 1 %}s{% endif %}</span>
+      {% if member.next_deadline %}
+      <span class="card-deadline">Nächster Termin: <strong>{{ member.next_deadline }}</strong></span>
+      {% endif %}
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}
