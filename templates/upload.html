@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Word-Datei hochladen{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <a href="/" class="back-link">← Team-Übersicht</a>
+  <h1>Zielvereinbarungen hochladen</h1>
+  <p class="page-subtitle">Word-Datei (.docx) mit den Jahreszielvereinbarungen hochladen</p>
+</section>
+
+<div class="upload-card">
+  {% if error %}
+  <div class="upload-error">{{ error }}</div>
+  {% endif %}
+
+  <form method="POST" enctype="multipart/form-data" class="upload-form">
+    <div class="upload-drop-area" id="drop-area">
+      <span class="upload-icon">📄</span>
+      <p class="upload-hint">Word-Datei (.docx) auswählen oder hier hineinziehen</p>
+      <input type="file" name="word_file" id="word-file" accept=".docx" class="upload-file-input">
+      <label for="word-file" class="btn-save upload-btn">Datei auswählen</label>
+      <span class="upload-filename" id="filename-display">Keine Datei ausgewählt</span>
+    </div>
+
+    <div class="upload-info">
+      <h3>Erwartetes Format der Word-Datei</h3>
+      <p>Die Datei sollte pro Mitarbeiter eine Tabelle mit folgenden Spalten enthalten:</p>
+      <table class="format-table">
+        <thead>
+          <tr><th>Mitarbeiter</th><th>KPI-Bezeichnung</th><th>Startdatum</th><th>Enddatum</th><th>Meilenstein</th><th>Meilenstein-Datum</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Anna Berger</td><td>CSAT steigern auf 85%</td><td>01.01.2026</td><td>31.12.2026</td><td>Schulung abgeschlossen</td><td>31.05.2026</td></tr>
+          <tr><td></td><td></td><td></td><td></td><td>Zielerreichung CSAT</td><td>31.12.2026</td></tr>
+        </tbody>
+      </table>
+      <p class="upload-note">Mehrere Meilensteine pro KPI: eine Zeile pro Meilenstein, Mitarbeiter und KPI-Name nur in der ersten Zeile.</p>
+    </div>
+
+    <button type="submit" class="btn-save upload-submit">Datei einlesen und Dashboard aktualisieren</button>
+  </form>
+</div>
+
+<script>
+document.getElementById("word-file").addEventListener("change", function() {
+  var name = this.files[0] ? this.files[0].name : "Keine Datei ausgewählt";
+  document.getElementById("filename-display").textContent = name;
+});
+</script>
+{% endblock %}

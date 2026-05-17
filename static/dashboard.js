@@ -9,13 +9,9 @@ function saveProgress(memberId, kpiId) {
   .then(function(r) { return r.json(); })
   .then(function(data) {
     if (data.ok) {
-      var bar = document.getElementById("bar-" + kpiId);
-      bar.className = "progress-bar-inner " + data.rag_status;
+      updateProgressUI(kpiId, data.progress, data.rag_status);
       var card = document.getElementById("kpi-" + kpiId);
-      card.className = card.className.replace(/rag-border-\w+/, "rag-border-" + data.rag_status);
-      var badge = card.querySelector(".rag-badge:last-of-type");
-      if (badge) { badge.className = "rag-badge " + data.rag_status; badge.textContent = data.rag_status.toUpperCase(); }
-      flashBtn(card.querySelector(".btn-save"));
+      flashBtn(card.querySelector(".progress-controls .btn-save"));
     }
   });
 }
@@ -55,16 +51,51 @@ function saveMilestone(select) {
       if (status === "completed") icon.textContent = "✓";
       else if (status === "in_progress") icon.textContent = "◎";
       else icon.textContent = "○";
+
+      if (data.progress !== null && data.progress !== undefined) {
+        updateProgressUI(kpiId, data.progress, data.rag_status);
+        var rangeEl = document.getElementById("range-" + kpiId);
+        if (rangeEl) rangeEl.value = data.progress;
+        var rangeVal = document.getElementById("rangeval-" + kpiId);
+        if (rangeVal) rangeVal.textContent = data.progress + "%";
+      }
     }
   });
 }
 
+function updateProgressUI(kpiId, progress, ragStatus) {
+  var bar = document.getElementById("bar-" + kpiId);
+  if (bar) {
+    bar.style.width = progress + "%";
+    bar.className = "progress-bar-inner " + ragStatus;
+  }
+  var pct = document.getElementById("pct-" + kpiId);
+  if (pct) pct.textContent = progress + "%";
+
+  var card = document.getElementById("kpi-" + kpiId);
+  if (card) {
+    card.className = card.className.replace(/rag-border-\w+/, "rag-border-" + ragStatus);
+    var badge = card.querySelector(".kpi-card-header .rag-badge");
+    if (badge) { badge.className = "rag-badge " + ragStatus; badge.textContent = ragStatus.toUpperCase(); }
+  }
+}
+
 function flashBtn(btn) {
   if (!btn) return;
+  var orig = btn.textContent;
   btn.classList.add("success");
   btn.textContent = "Gespeichert ✓";
   setTimeout(function() {
     btn.classList.remove("success");
-    btn.textContent = "Speichern";
+    btn.textContent = orig;
   }, 1800);
 }
+
+document.querySelectorAll(".progress-range").forEach(function(range) {
+  range.addEventListener("input", function() {
+    var kpiId = this.dataset.kpi;
+    document.getElementById("rangeval-" + kpiId).textContent = this.value + "%";
+    document.getElementById("pct-" + kpiId).textContent = this.value + "%";
+    document.getElementById("bar-" + kpiId).style.width = this.value + "%";
+  });
+});

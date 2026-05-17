@@ -4,7 +4,7 @@
 {% block content %}
 <section class="page-header">
   <h1>Team-Übersicht</h1>
-  <p class="page-subtitle">Jahresziele {{ data.year }} · Fortschritt und Status aller Teammitglieder</p>
+  <p class="page-subtitle">Jahresziele {{ data.year }} · Aktuelle KPIs und Status aller Teammitglieder</p>
   <div class="legend">
     <span class="rag-badge green">Grün: ≥ 75%</span>
     <span class="rag-badge amber">Gelb: 40–74%</span>
@@ -30,11 +30,35 @@
   </div>
   <div class="stat-item">
     <span class="stat-num">{{ members | length }}</span>
-    <span class="stat-label">Gesamt</span>
+    <span class="stat-label">Teammitglieder</span>
   </div>
 </div>
 
 <div class="team-grid">
+
+  <!-- Team-KPI-Übersicht Kachel -->
+  <a href="/team-kpis" class="member-card team-kpi-tile">
+    <div class="card-top">
+      <div class="avatar avatar-team">◈</div>
+      <div class="card-identity">
+        <h2 class="member-name">Team-KPIs</h2>
+        <p class="member-role">Alle aktuellen Ziele im Überblick</p>
+      </div>
+    </div>
+    <div class="team-tile-body">
+      <p class="team-tile-hint">Für die Teambesprechung — alle KPIs sortiert nach Handlungsbedarf</p>
+      <div class="team-tile-badges">
+        {% if red_count > 0 %}<span class="rag-badge red">{{ red_count }} Rot</span>{% endif %}
+        {% if amber_count > 0 %}<span class="rag-badge amber">{{ amber_count }} Gelb</span>{% endif %}
+        {% if green_count > 0 %}<span class="rag-badge green">{{ green_count }} Grün</span>{% endif %}
+      </div>
+    </div>
+    <div class="card-footer">
+      <span class="card-kpi-count">→ Zur Team-Besprechungsansicht</span>
+    </div>
+  </a>
+
+  <!-- Mitglieder-Kacheln -->
   {% for member in members %}
   <a href="/member/{{ member.id }}" class="member-card rag-border-{{ member.rag }}">
     <div class="card-top">
@@ -48,7 +72,7 @@
 
     <div class="card-progress">
       <div class="progress-label">
-        <span>Gesamtfortschritt</span>
+        <span>Gesamtfortschritt (aktive KPIs)</span>
         <strong>{{ member.progress }}%</strong>
       </div>
       <div class="progress-bar-outer">
@@ -57,7 +81,7 @@
     </div>
 
     <div class="card-footer">
-      <span class="card-kpi-count">{{ member.total }} KPI{% if member.total != 1 %}s{% endif %}</span>
+      <span class="card-kpi-count">{{ member.total }} aktive KPI{% if member.total != 1 %}s{% endif %}</span>
       {% if member.next_deadline %}
       <span class="card-deadline">Nächster Termin: <strong>{{ member.next_deadline }}</strong></span>
       {% endif %}

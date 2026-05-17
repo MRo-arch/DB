@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Team-KPIs{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <a href="/" class="back-link">← Team-Übersicht</a>
+  <h1>Team-KPIs · Besprechungsansicht</h1>
+  <p class="page-subtitle">Alle aktuellen Ziele · sortiert nach Handlungsbedarf</p>
+  <div class="legend">
+    <span class="rag-badge green">Grün: on track</span>
+    <span class="rag-badge amber">Gelb: beobachten</span>
+    <span class="rag-badge red">Rot: Gegensteuern nötig</span>
+  </div>
+</section>
+
+<div class="team-stats-bar">
+  {% set green_count = all_kpis | selectattr('rag_status', 'equalto', 'green') | list | length %}
+  {% set amber_count = all_kpis | selectattr('rag_status', 'equalto', 'amber') | list | length %}
+  {% set red_count   = all_kpis | selectattr('rag_status', 'equalto', 'red')   | list | length %}
+  <div class="stat-item">
+    <span class="stat-num red-text">{{ red_count }}</span>
+    <span class="stat-label">Handlungsbedarf</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num amber-text">{{ amber_count }}</span>
+    <span class="stat-label">Beobachten</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num green-text">{{ green_count }}</span>
+    <span class="stat-label">On Track</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">{{ all_kpis | length }}</span>
+    <span class="stat-label">KPIs gesamt</span>
+  </div>
+</div>
+
+{% if not all_kpis %}
+<div class="empty-state">
+  <p>Keine aktiven KPIs vorhanden.</p>
+</div>
+{% else %}
+
+<div class="team-kpi-list">
+  {% set ns = namespace(current_rag='') %}
+  {% for kpi in all_kpis %}
+    {% if kpi.rag_status != ns.current_rag %}
+      {% set ns.current_rag = kpi.rag_status %}
+      <div class="rag-section-header rag-header-{{ kpi.rag_status }}">
+        {% if kpi.rag_status == 'red' %}Handlungsbedarf
+        {% elif kpi.rag_status == 'amber' %}Beobachten
+        {% else %}On Track{% endif %}
+      </div>
+    {% endif %}
+
+    <div class="team-kpi-row rag-border-{{ kpi.rag_status }}">
+      <div class="team-kpi-rag">
+        <span class="rag-dot rag-dot-{{ kpi.rag_status }}"></span>
+      </div>
+
+      <div class="team-kpi-body">
+        <div class="team-kpi-header">
+          <a href="/member/{{ kpi.member_id }}" class="team-kpi-member">{{ kpi.member_name }}</a>
+          <span class="kpi-type-badge kpi-type-{{ kpi.type }}">
+            {% if kpi.type == 'quantitative' %}Quantitativ
+            {% elif kpi.type == 'qualitative' %}Qualitativ
+            {% else %}Meilenstein{% endif %}
+          </span>
+        </div>
+        <p class="team-kpi-title">{{ kpi.original_goal }}</p>
+
+        <div class="team-kpi-progress">
+          <div class="progress-bar-outer">
+            <div class="progress-bar-inner {{ kpi.rag_status }}" style="width: {{ kpi.progress_percent }}%"></div>
+          </div>
+          <span class="team-kpi-pct">{{ kpi.progress_percent }}%</span>
+        </div>
+
+        {% if kpi.milestones %}
+        {% set next_ms = kpi.milestones | selectattr('status', 'ne', 'completed') | list | first %}
+        {% if next_ms %}
+        <div class="team-kpi-next-ms">
+          <span class="ms-status-icon">{% if next_ms.status == 'in_progress' %}◎{% else %}○{% endif %}</span>
+          <span>{{ next_ms.description }}</span>
+          <span class="ms-deadline">{{ next_ms.deadline }}</span>
+        </div>
+        {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

@@ -24,6 +24,8 @@
           "current_value": 62,
           "progress_percent": 80,
           "rag_status": "green",
+          "start_date": "2026-01-01",
+          "end_date": "2026-12-31",
           "milestones": [
             {
               "description": "Analyse der häufigsten Reklamationsgründe",
@@ -62,8 +64,10 @@
           "target_value": 100,
           "target_unit": "%",
           "current_value": 75,
-          "progress_percent": 75,
-          "rag_status": "green",
+          "progress_percent": 50,
+          "rag_status": "amber",
+          "start_date": "2026-01-01",
+          "end_date": "2026-07-01",
           "milestones": [
             {
               "description": "Konzept Onboarding-Programm",
@@ -111,6 +115,8 @@
           "current_value": 40,
           "progress_percent": 40,
           "rag_status": "amber",
+          "start_date": "2026-01-01",
+          "end_date": "2026-09-30",
           "milestones": [
             {
               "description": "Systemauswahl und Entscheidung",
@@ -156,6 +162,8 @@
           "current_value": 58,
           "progress_percent": 58,
           "rag_status": "amber",
+          "start_date": "2026-01-01",
+          "end_date": "2026-12-31",
           "milestones": [
             {
               "description": "Analyse Verspätungsursachen Q1",
@@ -198,6 +206,8 @@
           "current_value": 3.2,
           "progress_percent": 45,
           "rag_status": "amber",
+          "start_date": "2026-01-01",
+          "end_date": "2026-12-31",
           "milestones": [
             {
               "description": "Ist-Analyse Kommunikationsformate",
@@ -238,6 +248,8 @@
           "current_value": 55,
           "progress_percent": 55,
           "rag_status": "red",
+          "start_date": "2026-01-01",
+          "end_date": "2026-12-31",
           "milestones": [
             {
               "description": "Weiterbildungsbedarf erhoben",
@@ -280,6 +292,8 @@
           "current_value": 3,
           "progress_percent": 60,
           "rag_status": "green",
+          "start_date": "2026-01-01",
+          "end_date": "2026-12-31",
           "milestones": [
             {
               "description": "Top-20-Kundenliste mit Potenzialanalyse",
@@ -331,7 +345,9 @@
           "target_unit": "umgesetzte Maßnahmen",
           "current_value": 2,
           "progress_percent": 25,
-          "rag_status": "amber",
+          "rag_status": "red",
+          "start_date": "2026-04-01",
+          "end_date": "2026-12-31",
           "milestones": [
             {
               "description": "KVP-Konzept und Format definiert",
@@ -372,6 +388,8 @@
           "current_value": 3.1,
           "progress_percent": 55,
           "rag_status": "amber",
+          "start_date": "2026-01-01",
+          "end_date": "2026-12-31",
           "milestones": [
             {
               "description": "Fehlerursachenanalyse abgeschlossen",
@@ -414,6 +432,8 @@
           "current_value": 98.4,
           "progress_percent": 78,
           "rag_status": "green",
+          "start_date": "2026-01-01",
+          "end_date": "2026-12-31",
           "milestones": [
             {
               "description": "Schwachstellenanalyse abgeschlossen",
@@ -454,8 +474,10 @@
           "target_value": 4,
           "target_unit": "Std./Monat",
           "current_value": 18,
-          "progress_percent": 30,
+          "progress_percent": 25,
           "rag_status": "red",
+          "start_date": "2026-01-01",
+          "end_date": "2026-09-30",
           "milestones": [
             {
               "description": "Anforderungsanalyse & Tool-Entscheidung",
@@ -496,6 +518,8 @@
           "current_value": 1,
           "progress_percent": 25,
           "rag_status": "amber",
+          "start_date": "2026-01-01",
+          "end_date": "2026-12-31",
           "milestones": [
             {
               "description": "KPI-Framework-Vorlage erstellt",
@@ -541,8 +565,10 @@
           "target_value": 100,
           "target_unit": "% migriert",
           "current_value": 85,
-          "progress_percent": 85,
+          "progress_percent": 75,
           "rag_status": "green",
+          "start_date": "2026-01-01",
+          "end_date": "2026-08-31",
           "milestones": [
             {
               "description": "Ablagestruktur-Konzept genehmigt",

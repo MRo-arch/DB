@@ -17,7 +17,9 @@
       <nav class="header-nav">
         <a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">Team-Übersicht</a>
         <span class="nav-sep">|</span>
-        <span class="nav-hint">Mitglied auswählen ↓</span>
+        <a href="/team-kpis" class="nav-link {% if request.path == '/team-kpis' %}active{% endif %}">Team-KPIs</a>
+        <span class="nav-sep">|</span>
+        <a href="/upload" class="nav-link {% if request.path == '/upload' %}active{% endif %}">Word hochladen</a>
       </nav>
     </div>
   </header>
