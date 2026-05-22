@@ -156,7 +156,20 @@ def update_milestone():
     return jsonify({"ok": False}), 404
 
 
-@app.route("/upload", methods=["GET", "POST"])
+@app.route("/edit")
+def edit():
+    data = load_data()
+    return render_template("edit.html", data=data)
+
+
+@app.route("/api/save_all", methods=["POST"])
+def save_all():
+    payload = request.get_json()
+    data = load_data()
+    data["team_name"] = payload.get("team_name", data["team_name"])
+    data["members"] = payload.get("members", data["members"])
+    save_data(data)
+    return jsonify({"ok": True})
 def upload():
     data = load_data()
     if request.method == "POST":

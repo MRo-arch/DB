@@ -366,6 +366,77 @@ details[open] .smart-summary::before { content: "▼ "; }
 .format-table td { padding: .3rem .5rem; border: 1px solid var(--border); }
 .upload-submit { align-self: flex-start; font-size: .9rem; padding: .5rem 1.25rem; }
 
+/* ── Edit Form ───────────────────────────────────────── */
+.edit-toolbar {
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.edit-hint { font-size: .85rem; color: var(--green); font-weight: 600; }
+.edit-section { margin-bottom: 1.5rem; }
+.edit-label { display: block; font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); margin-bottom: .35rem; }
+.edit-input {
+  width: 100%; padding: .45rem .7rem;
+  border: 1px solid var(--border); border-radius: 8px;
+  font-size: .9rem; font-family: inherit; color: var(--text);
+  background: var(--card);
+}
+.edit-input:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+select.edit-input { cursor: pointer; }
+
+.edit-member-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
+}
+.edit-member-header { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; }
+.edit-member-fields { display: flex; gap: .75rem; flex: 1; flex-wrap: wrap; }
+.edit-member-fields .edit-input { flex: 1; min-width: 160px; }
+
+.edit-kpi-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: .75rem;
+}
+.edit-kpi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: .75rem; }
+.edit-kpi-num { font-size: .75rem; font-weight: 700; text-transform: uppercase; color: var(--accent); letter-spacing: .06em; }
+.edit-kpi-fields { display: flex; flex-direction: column; gap: .6rem; }
+.edit-field-row { display: flex; flex-direction: column; gap: .25rem; }
+.edit-field-row label { font-size: .75rem; font-weight: 600; color: var(--text-muted); }
+.edit-field-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
+@media (max-width: 600px) { .edit-field-3col { grid-template-columns: 1fr; } }
+
+.edit-milestones { margin-top: .75rem; }
+.edit-milestones-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: .5rem; }
+.edit-milestone-row { display: flex; gap: .5rem; align-items: center; margin-bottom: .4rem; flex-wrap: wrap; }
+.edit-milestone-row .ms-desc { flex: 2; min-width: 160px; }
+.edit-milestone-row .ms-date { flex: 1; min-width: 130px; }
+.edit-milestone-row .ms-status { flex: 1; min-width: 110px; }
+
+.edit-add-kpi { margin-top: .75rem; }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: .35rem;
+  background: transparent; color: var(--accent);
+  border: 1.5px solid var(--accent); border-radius: 8px;
+  padding: .35rem .9rem; font-size: .82rem; font-weight: 600;
+  cursor: pointer; transition: background .15s;
+}
+.btn-outline:hover { background: #eef2ff; }
+.btn-danger {
+  display: inline-flex; align-items: center;
+  background: transparent; color: var(--red);
+  border: 1.5px solid var(--red-border); border-radius: 8px;
+  padding: .35rem .75rem; font-size: .82rem; font-weight: 600;
+  cursor: pointer; white-space: nowrap; transition: background .15s;
+}
+.btn-danger:hover { background: var(--red-bg); }
+.btn-sm { padding: .2rem .55rem; font-size: .75rem; }
+
 /* ── Empty State ─────────────────────────────────────── */
 .empty-state { text-align: center; padding: 3rem; color: var(--text-muted); }
 

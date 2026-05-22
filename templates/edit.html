@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+{% block title %}Daten eingeben{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <a href="/" class="back-link">← Team-Übersicht</a>
+  <h1>Daten eingeben</h1>
+  <p class="page-subtitle">Teammitglieder, KPIs und Meilensteine direkt im Browser erfassen</p>
+</section>
+
+<div class="edit-toolbar no-print">
+  <button class="btn-save" onclick="saveAll()">💾 Alle Daten speichern</button>
+  <button class="btn-outline" onclick="addMember()">+ Mitarbeiter hinzufügen</button>
+  <span class="edit-hint" id="save-status"></span>
+</div>
+
+<!-- Teamname -->
+<div class="edit-section">
+  <label class="edit-label">Teamname</label>
+  <input type="text" id="team-name" class="edit-input" value="{{ data.team_name }}">
+</div>
+
+<div id="members-container">
+{% for member in data.members %}
+<div class="edit-member-card" data-member-id="{{ member.id }}">
+  <div class="edit-member-header">
+    <div class="edit-member-fields">
+      <input type="text" class="edit-input edit-member-name" placeholder="Name" value="{{ member.name }}">
+      <input type="text" class="edit-input edit-member-role" placeholder="Rolle / Funktion" value="{{ member.role }}">
+    </div>
+    <button class="btn-danger" onclick="removeMember(this)">✕ Entfernen</button>
+  </div>
+
+  <div class="edit-kpis-container">
+  {% for kpi in member.kpis %}
+  <div class="edit-kpi-block" data-kpi-id="{{ kpi.id }}">
+    <div class="edit-kpi-header">
+      <span class="edit-kpi-num">KPI</span>
+      <button class="btn-danger btn-sm" onclick="removeKpi(this)">✕</button>
+    </div>
+    <div class="edit-kpi-fields">
+      <div class="edit-field-row">
+        <label>Zielbezeichnung</label>
+        <input type="text" class="edit-input kpi-title" placeholder="z.B. Kundenzufriedenheit steigern" value="{{ kpi.original_goal }}">
+      </div>
+      <div class="edit-field-row edit-field-3col">
+        <div>
+          <label>Typ</label>
+          <select class="edit-input kpi-type">
+            <option value="milestone" {% if kpi.type == 'milestone' %}selected{% endif %}>Meilenstein</option>
+            <option value="quantitative" {% if kpi.type == 'quantitative' %}selected{% endif %}>Quantitativ</option>
+            <option value="qualitative" {% if kpi.type == 'qualitative' %}selected{% endif %}>Qualitativ</option>
+          </select>
+        </div>
+        <div>
+          <label>Startdatum</label>
+          <input type="date" class="edit-input kpi-start" value="{{ kpi.start_date }}">
+        </div>
+        <div>
+          <label>Enddatum</label>
+          <input type="date" class="edit-input kpi-end" value="{{ kpi.end_date }}">
+        </div>
+      </div>
+      <div class="edit-field-row edit-field-3col">
+        <div>
+          <label>Zielwert</label>
+          <input type="text" class="edit-input kpi-target-value" placeholder="z.B. 85" value="{{ kpi.target_value }}">
+        </div>
+        <div>
+          <label>Einheit</label>
+          <input type="text" class="edit-input kpi-target-unit" placeholder="z.B. %, Anzahl" value="{{ kpi.target_unit }}">
+        </div>
+        <div>
+          <label>Aktueller Wert</label>
+          <input type="text" class="edit-input kpi-current-value" placeholder="z.B. 62" value="{{ kpi.current_value }}">
+        </div>
+      </div>
+    </div>
+
+    <div class="edit-milestones">
+      <div class="edit-milestones-header">
+        <span class="section-label">Meilensteine</span>
+        <button class="btn-outline btn-sm" onclick="addMilestone(this)">+ Meilenstein</button>
+      </div>
+      <div class="milestones-list">
+      {% for ms in kpi.milestones %}
+      <div class="edit-milestone-row">
+        <input type="text" class="edit-input ms-desc" placeholder="Beschreibung" value="{{ ms.description }}">
+        <input type="date" class="edit-input ms-date" value="{{ ms.deadline }}">
+        <select class="edit-input ms-status">
+          <option value="open" {% if ms.status == 'open' %}selected{% endif %}>Offen</option>
+          <option value="in_progress" {% if ms.status == 'in_progress' %}selected{% endif %}>In Arbeit</option>
+          <option value="completed" {% if ms.status == 'completed' %}selected{% endif %}>Erledigt</option>
+        </select>
+        <button class="btn-danger btn-sm" onclick="removeMilestone(this)">✕</button>
+      </div>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+
+  <div class="edit-add-kpi">
+    <button class="btn-outline" onclick="addKpi(this)">+ KPI hinzufügen</button>
+  </div>
+</div>
+{% endfor %}
+</div>
+
+<div class="edit-toolbar no-print" style="margin-top:2rem;">
+  <button class="btn-save" onclick="saveAll()">💾 Alle Daten speichern</button>
+  <span class="edit-hint" id="save-status-bottom"></span>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+var memberCount = {{ data.members | length }};
+var kpiCounters = {};
+
+function addMember() {
+  memberCount++;
+  var id = "member_new_" + memberCount;
+  var html = '<div class="edit-member-card" data-member-id="' + id + '">' +
+    '<div class="edit-member-header">' +
+    '<div class="edit-member-fields">' +
+    '<input type="text" class="edit-input edit-member-name" placeholder="Name">' +
+    '<input type="text" class="edit-input edit-member-role" placeholder="Rolle / Funktion">' +
+    '</div>' +
+    '<button class="btn-danger" onclick="removeMember(this)">✕ Entfernen</button>' +
+    '</div>' +
+    '<div class="edit-kpis-container"></div>' +
+    '<div class="edit-add-kpi"><button class="btn-outline" onclick="addKpi(this)">+ KPI hinzufügen</button></div>' +
+    '</div>';
+  document.getElementById("members-container").insertAdjacentHTML("beforeend", html);
+}
+
+function removeMember(btn) {
+  if (confirm("Mitarbeiter wirklich entfernen?")) {
+    btn.closest(".edit-member-card").remove();
+  }
+}
+
+function addKpi(btn) {
+  var container = btn.closest(".edit-member-card").querySelector(".edit-kpis-container");
+  var today = new Date().toISOString().slice(0,10);
+  var endOfYear = new Date().getFullYear() + "-12-31";
+  var html = '<div class="edit-kpi-block" data-kpi-id="new_' + Date.now() + '">' +
+    '<div class="edit-kpi-header"><span class="edit-kpi-num">KPI</span>' +
+    '<button class="btn-danger btn-sm" onclick="removeKpi(this)">✕</button></div>' +
+    '<div class="edit-kpi-fields">' +
+    '<div class="edit-field-row"><label>Zielbezeichnung</label>' +
+    '<input type="text" class="edit-input kpi-title" placeholder="z.B. Kundenzufriedenheit steigern"></div>' +
+    '<div class="edit-field-row edit-field-3col">' +
+    '<div><label>Typ</label><select class="edit-input kpi-type">' +
+    '<option value="milestone">Meilenstein</option>' +
+    '<option value="quantitative">Quantitativ</option>' +
+    '<option value="qualitative">Qualitativ</option>' +
+    '</select></div>' +
+    '<div><label>Startdatum</label><input type="date" class="edit-input kpi-start" value="' + today + '"></div>' +
+    '<div><label>Enddatum</label><input type="date" class="edit-input kpi-end" value="' + endOfYear + '"></div>' +
+    '</div>' +
+    '<div class="edit-field-row edit-field-3col">' +
+    '<div><label>Zielwert</label><input type="text" class="edit-input kpi-target-value" placeholder="z.B. 100"></div>' +
+    '<div><label>Einheit</label><input type="text" class="edit-input kpi-target-unit" placeholder="z.B. %"></div>' +
+    '<div><label>Aktueller Wert</label><input type="text" class="edit-input kpi-current-value" placeholder="z.B. 0"></div>' +
+    '</div></div>' +
+    '<div class="edit-milestones">' +
+    '<div class="edit-milestones-header"><span class="section-label">Meilensteine</span>' +
+    '<button class="btn-outline btn-sm" onclick="addMilestone(this)">+ Meilenstein</button></div>' +
+    '<div class="milestones-list"></div></div></div>';
+  container.insertAdjacentHTML("beforeend", html);
+}
+
+function removeKpi(btn) {
+  btn.closest(".edit-kpi-block").remove();
+}
+
+function addMilestone(btn) {
+  var list = btn.closest(".edit-milestones").querySelector(".milestones-list");
+  var html = '<div class="edit-milestone-row">' +
+    '<input type="text" class="edit-input ms-desc" placeholder="Meilensteinbeschreibung">' +
+    '<input type="date" class="edit-input ms-date">' +
+    '<select class="edit-input ms-status">' +
+    '<option value="open">Offen</option>' +
+    '<option value="in_progress">In Arbeit</option>' +
+    '<option value="completed">Erledigt</option>' +
+    '</select>' +
+    '<button class="btn-danger btn-sm" onclick="removeMilestone(this)">✕</button></div>';
+  list.insertAdjacentHTML("beforeend", html);
+}
+
+function removeMilestone(btn) {
+  btn.closest(".edit-milestone-row").remove();
+}
+
+function slugify(str) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+}
+
+function saveAll() {
+  var teamName = document.getElementById("team-name").value.trim();
+  var members = [];
+  var memberIdx = 0;
+
+  document.querySelectorAll(".edit-member-card").forEach(function(card) {
+    memberIdx++;
+    var name = card.querySelector(".edit-member-name").value.trim();
+    var role = card.querySelector(".edit-member-role").value.trim();
+    if (!name) return;
+
+    var memberId = card.dataset.memberId || ("member_" + slugify(name));
+    var kpis = [];
+    var kpiIdx = 0;
+
+    card.querySelectorAll(".edit-kpi-block").forEach(function(block) {
+      kpiIdx++;
+      var title = block.querySelector(".kpi-title").value.trim();
+      if (!title) return;
+
+      var kpiId = block.dataset.kpiId && !block.dataset.kpiId.startsWith("new_")
+        ? block.dataset.kpiId
+        : memberId + "_kpi_" + kpiIdx;
+
+      var startDate = block.querySelector(".kpi-start").value;
+      var endDate   = block.querySelector(".kpi-end").value;
+      var type      = block.querySelector(".kpi-type").value;
+      var targetVal = block.querySelector(".kpi-target-value").value;
+      var unit      = block.querySelector(".kpi-target-unit").value;
+      var curVal    = block.querySelector(".kpi-current-value").value;
+
+      var milestones = [];
+      block.querySelectorAll(".edit-milestone-row").forEach(function(row) {
+        var desc   = row.querySelector(".ms-desc").value.trim();
+        var dl     = row.querySelector(".ms-date").value;
+        var status = row.querySelector(".ms-status").value;
+        if (desc) milestones.push({ description: desc, deadline: dl, status: status });
+      });
+
+      var progress = 0;
+      if (type === "milestone" && milestones.length > 0) {
+        var done = milestones.filter(function(m) { return m.status === "completed"; }).length;
+        progress = Math.round((done / milestones.length) * 100);
+      }
+      var rag = progress >= 75 ? "green" : progress >= 40 ? "amber" : "red";
+
+      kpis.push({
+        id: kpiId,
+        original_goal: title,
+        smart_kpi: {
+          specific: title,
+          measurable: "Wird im Gespräch konkretisiert",
+          achievable: "Wird im Gespräch konkretisiert",
+          relevant: "Wird im Gespräch konkretisiert",
+          time_bound: "Bis " + endDate
+        },
+        type: type,
+        target_value: isNaN(parseFloat(targetVal)) ? targetVal : parseFloat(targetVal),
+        target_unit: unit,
+        current_value: isNaN(parseFloat(curVal)) ? curVal : parseFloat(curVal),
+        progress_percent: progress,
+        rag_status: rag,
+        start_date: startDate,
+        end_date: endDate,
+        milestones: milestones,
+        notes: ""
+      });
+    });
+
+    members.push({ id: memberId, name: name, role: role, kpis: kpis });
+  });
+
+  var payload = { team_name: teamName, members: members };
+
+  fetch("/api/save_all", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    var msg = data.ok ? "✓ Gespeichert" : "Fehler beim Speichern";
+    ["save-status", "save-status-bottom"].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) { el.textContent = msg; setTimeout(function() { el.textContent = ""; }, 2500); }
+    });
+    if (data.ok) document.title = "Daten eingeben – " + teamName;
+  });
+}
+</script>
+{% endblock %}
