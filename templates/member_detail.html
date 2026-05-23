@@ -19,59 +19,42 @@
     </div>
     <div class="stat-item">
       <span class="stat-num">{{ member.kpis | length }}</span>
-      <span class="stat-label">Ziele</span>
+      <span class="stat-label">Aktive KPIs</span>
     </div>
-    {% if summary.next_deadline %}
-    <div class="stat-item">
-      <span class="stat-num">{{ summary.next_deadline }}</span>
-      <span class="stat-label">Nächster Termin</span>
-    </div>
-    {% endif %}
   </div>
 </section>
 
 <div class="kpi-list">
   {% for kpi in member.kpis %}
+  {% set total_ms = kpi.milestones | length %}
+  {% set done_ms  = kpi.milestones | selectattr('status', 'equalto', 'completed') | list | length %}
   <div class="kpi-card rag-border-{{ kpi.rag_status }}" id="kpi-{{ kpi.id }}">
-    <div class="kpi-card-header">
-      <div>
-        <span class="kpi-type-badge kpi-type-{{ kpi.type }}">
-          {% if kpi.type == 'quantitative' %}Quantitativ
-          {% elif kpi.type == 'qualitative' %}Qualitativ
-          {% else %}Meilenstein{% endif %}
-        </span>
-        <h3 class="kpi-title">{{ kpi.original_goal }}</h3>
-      </div>
-      <span class="rag-badge {{ kpi.rag_status }}">{{ kpi.rag_status | upper }}</span>
-    </div>
 
-    <div class="kpi-smart">
-      <details class="smart-details">
-        <summary class="smart-summary">SMART-Formulierung</summary>
-        <div class="smart-grid">
-          <div class="smart-item"><span class="smart-label">Spezifisch</span><p>{{ kpi.smart_kpi.specific }}</p></div>
-          <div class="smart-item"><span class="smart-label">Messbar</span><p>{{ kpi.smart_kpi.measurable }}</p></div>
-          <div class="smart-item"><span class="smart-label">Erreichbar</span><p>{{ kpi.smart_kpi.achievable }}</p></div>
-          <div class="smart-item"><span class="smart-label">Relevant</span><p>{{ kpi.smart_kpi.relevant }}</p></div>
-          <div class="smart-item"><span class="smart-label">Zeitgebunden</span><p>{{ kpi.smart_kpi.time_bound }}</p></div>
+    <div class="kpi-card-header">
+      <div class="kpi-card-title-block">
+        <div class="kpi-meta-badges">
+          {% if kpi.kpi_typ %}
+          <span class="kpi-type-badge kpi-typ-{{ kpi.kpi_typ | lower }}">{{ kpi.kpi_typ }}</span>
+          {% endif %}
+          {% if kpi.ebene %}
+          <span class="kpi-ebene-badge">{{ kpi.ebene }}</span>
+          {% endif %}
         </div>
-      </details>
+        <h3 class="kpi-title">{{ kpi.original_goal }}</h3>
+        {% if kpi.start_date or kpi.end_date %}
+        <p class="kpi-laufzeit">Laufzeit: {{ kpi.start_date }} – {{ kpi.end_date }}</p>
+        {% endif %}
+      </div>
+      <span class="rag-badge {{ kpi.rag_status }} rag-lg" id="badge-{{ kpi.id }}">{{ kpi.rag_status | upper }}</span>
     </div>
 
     <div class="kpi-progress-section">
       <div class="progress-label">
-        <span>Fortschritt: <strong>{{ kpi.current_value }} {{ kpi.target_unit }}</strong> von <strong>{{ kpi.target_value }} {{ kpi.target_unit }}</strong></span>
+        <span>{{ done_ms }} von {{ total_ms }} Meilenstein{% if total_ms != 1 %}en{% endif %} erreicht</span>
         <strong class="progress-pct" id="pct-{{ kpi.id }}">{{ kpi.progress_percent }}%</strong>
       </div>
       <div class="progress-bar-outer">
         <div class="progress-bar-inner {{ kpi.rag_status }}" id="bar-{{ kpi.id }}" style="width: {{ kpi.progress_percent }}%"></div>
-      </div>
-      <div class="progress-controls no-print">
-        <label for="range-{{ kpi.id }}">Fortschritt anpassen:</label>
-        <input type="range" id="range-{{ kpi.id }}" min="0" max="100" value="{{ kpi.progress_percent }}"
-          data-member="{{ member.id }}" data-kpi="{{ kpi.id }}" class="progress-range">
-        <span class="range-val" id="rangeval-{{ kpi.id }}">{{ kpi.progress_percent }}%</span>
-        <button class="btn-save" onclick="saveProgress('{{ member.id }}', '{{ kpi.id }}')">Speichern</button>
       </div>
     </div>
 
@@ -81,18 +64,18 @@
       <ul class="milestone-list">
         {% for ms in kpi.milestones %}
         <li class="milestone-item status-{{ ms.status }}" id="ms-{{ kpi.id }}-{{ loop.index0 }}">
+          <span class="ms-num-label">{{ loop.index }}.</span>
           <span class="ms-status-icon">
             {% if ms.status == 'completed' %}✓
             {% elif ms.status == 'in_progress' %}◎
             {% else %}○{% endif %}
           </span>
           <span class="ms-description">{{ ms.description }}</span>
-          <span class="ms-deadline">{{ ms.deadline }}</span>
           <select class="ms-select no-print" data-member="{{ member.id }}" data-kpi="{{ kpi.id }}" data-idx="{{ loop.index0 }}"
             onchange="saveMilestone(this)">
-            <option value="open" {% if ms.status == 'open' %}selected{% endif %}>Offen</option>
+            <option value="open"        {% if ms.status == 'open' %}selected{% endif %}>Offen</option>
             <option value="in_progress" {% if ms.status == 'in_progress' %}selected{% endif %}>In Arbeit</option>
-            <option value="completed" {% if ms.status == 'completed' %}selected{% endif %}>Erledigt</option>
+            <option value="completed"   {% if ms.status == 'completed' %}selected{% endif %}>Erledigt</option>
           </select>
         </li>
         {% endfor %}
@@ -107,21 +90,8 @@
         placeholder="Notizen zum Gespräch…">{{ kpi.notes }}</textarea>
       <button class="btn-save no-print" onclick="saveNotes('{{ member.id }}', '{{ kpi.id }}')">Notiz speichern</button>
     </div>
+
   </div>
   {% endfor %}
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-// Enumerate filter not built into Jinja2 by default — milestones are already indexed above via loop.index0
-document.querySelectorAll(".progress-range").forEach(function(range) {
-  range.addEventListener("input", function() {
-    var kpiId = this.dataset.kpi;
-    document.getElementById("rangeval-" + kpiId).textContent = this.value + "%";
-    document.getElementById("pct-" + kpiId).textContent = this.value + "%";
-    document.getElementById("bar-" + kpiId).style.width = this.value + "%";
-  });
-});
-</script>
 {% endblock %}

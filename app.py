@@ -56,13 +56,8 @@ def member_summary(member):
     avg = round(sum(k["progress_percent"] for k in active) / len(active))
     rag_order = {"red": 0, "amber": 1, "green": 2}
     worst_rag = min((k["rag_status"] for k in active), key=lambda r: rag_order[r])
-    all_deadlines = [
-        m["deadline"]
-        for k in active
-        for m in k.get("milestones", [])
-        if m["status"] != "completed"
-    ]
-    next_deadline = min(all_deadlines) if all_deadlines else None
+    end_dates = [k["end_date"] for k in active if k.get("end_date")]
+    next_deadline = min(end_dates) if end_dates else None
     return {"progress": avg, "rag": worst_rag, "next_deadline": next_deadline, "total": len(active)}
 
 
@@ -140,13 +135,10 @@ def update_milestone():
                     milestones = kpi.get("milestones", [])
                     if 0 <= milestone_idx < len(milestones):
                         milestones[milestone_idx]["status"] = status
-                        new_progress = None
-                        new_rag = None
-                        if kpi.get("type") == "milestone":
-                            new_progress = milestone_auto_progress(kpi)
-                            kpi["progress_percent"] = new_progress
-                            new_rag = compute_rag(new_progress)
-                            kpi["rag_status"] = new_rag
+                        new_progress = milestone_auto_progress(kpi)
+                        new_rag = compute_rag(new_progress)
+                        kpi["progress_percent"] = new_progress
+                        kpi["rag_status"] = new_rag
                         save_data(data)
                         return jsonify({
                             "ok": True,

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-17",
+  "generated_at": "2026-05-23",
   "year": 2026,
   "team_name": "Mein Team",
   "members": [
@@ -11,54 +11,36 @@
         {
           "id": "kpi_1_1",
           "original_goal": "Verbesserung der Kundenzufriedenheit im Bereich Reklamationsbearbeitung",
-          "smart_kpi": {
-            "specific": "Kundenzufriedenheitswert (CSAT) bei Reklamationen auf mindestens 85% steigern",
-            "measurable": "Monatliche Kundenbefragung nach Reklamationsabschluss (Skala 1–5, Ziel ≥ 4,3)",
-            "achievable": "Durch Prozessoptimierung und Schulungsmaßnahmen erreichbar",
-            "relevant": "Direkte Auswirkung auf Kundenbindung und Teamimage",
-            "time_bound": "Bis 31.12.2026, Zwischencheck Q2 und Q3"
-          },
-          "type": "qualitative",
-          "target_value": 85,
-          "target_unit": "%",
-          "current_value": 62,
-          "progress_percent": 80,
-          "rag_status": "green",
+          "kpi_typ": "Strategie",
+          "ebene": "Schleswig-Holstein",
           "start_date": "2026-01-01",
           "end_date": "2026-12-31",
+          "progress_percent": 50,
+          "rag_status": "amber",
           "milestones": [
-            { "description": "Analyse der häufigsten Reklamationsgründe", "deadline": "2026-03-31", "status": "completed" },
-            { "description": "Schulung Reklamationsmanagement", "deadline": "2026-05-31", "status": "completed" },
-            { "description": "Neue Prozessdokumentation eingeführt", "deadline": "2026-07-31", "status": "open" },
-            { "description": "Zielerreichung CSAT ≥ 85%", "deadline": "2026-12-31", "status": "open" }
+            { "description": "Analyse der häufigsten Reklamationsgründe", "status": "completed" },
+            { "description": "Schulung Reklamationsmanagement", "status": "completed" },
+            { "description": "Neue Prozessdokumentation eingeführt", "status": "open" },
+            { "description": "Zielerreichung CSAT ≥ 85%", "status": "open" }
           ],
-          "notes": "Schulungstermine im Juni geplant. Aktueller CSAT liegt bei 4,0."
+          "notes": "Schulungstermine im Juni geplant."
         },
         {
           "id": "kpi_1_2",
-          "original_goal": "Aufbau und Durchführung eines Onboarding-Programms für neue Teammitglieder",
-          "smart_kpi": {
-            "specific": "Strukturiertes 4-wöchiges Onboarding-Programm für alle neuen MA entwickeln und einführen",
-            "measurable": "100% der neuen MA durchlaufen das Programm; Onboarding-Bewertung ≥ 4/5",
-            "achievable": "Bestehende Materialien können als Basis genutzt werden",
-            "relevant": "Reduziert Einarbeitungszeit und stärkt Teamkohäsion",
-            "time_bound": "Programm bis Q2 2026 fertig; ab Juli für alle neuen MA verpflichtend"
-          },
-          "type": "milestone",
-          "target_value": 100,
-          "target_unit": "%",
-          "current_value": 75,
-          "progress_percent": 50,
-          "rag_status": "amber",
+          "original_goal": "Aufbau und Durchführung eines Onboarding-Programms",
+          "kpi_typ": "Organisation",
+          "ebene": "Schleswig-Holstein",
           "start_date": "2026-01-01",
           "end_date": "2026-07-01",
+          "progress_percent": 50,
+          "rag_status": "amber",
           "milestones": [
-            { "description": "Konzept Onboarding-Programm", "deadline": "2026-03-15", "status": "completed" },
-            { "description": "Materialien und Leitfaden erstellt", "deadline": "2026-05-15", "status": "completed" },
-            { "description": "Pilotdurchlauf mit 2 neuen MA", "deadline": "2026-06-30", "status": "in_progress" },
-            { "description": "Offizieller Start für alle neuen MA", "deadline": "2026-07-01", "status": "open" }
+            { "description": "Konzept Onboarding-Programm", "status": "completed" },
+            { "description": "Materialien und Leitfaden erstellt", "status": "completed" },
+            { "description": "Pilotdurchlauf mit 2 neuen MA", "status": "in_progress" },
+            { "description": "Offizieller Start für alle neuen MA", "status": "open" }
           ],
-          "notes": "Pilotdurchlauf läuft gut. Feedback bisher positiv."
+          "notes": "Pilotdurchlauf läuft gut."
         }
       ]
     },
@@ -70,52 +52,34 @@
         {
           "id": "kpi_2_1",
           "original_goal": "Einführung eines neuen Projektmanagementsystems im Team",
-          "smart_kpi": {
-            "specific": "Migration aller laufenden Projekte auf das neue PM-System abschließen",
-            "measurable": "100% der Projekte migriert; 90% der Teammitglieder aktiv im System",
-            "achievable": "Rollout in Phasen, Schulungen begleitend",
-            "relevant": "Verbessert Transparenz und Nachverfolgbarkeit aller Projekte",
-            "time_bound": "Migration bis Q3 2026 abgeschlossen"
-          },
-          "type": "milestone",
-          "target_value": 100,
-          "target_unit": "%",
-          "current_value": 40,
-          "progress_percent": 40,
-          "rag_status": "amber",
+          "kpi_typ": "Organisation",
+          "ebene": "Bund",
           "start_date": "2026-01-01",
           "end_date": "2026-09-30",
+          "progress_percent": 40,
+          "rag_status": "amber",
           "milestones": [
-            { "description": "Systemauswahl und Entscheidung", "deadline": "2026-02-28", "status": "completed" },
-            { "description": "Lizenzierung und technisches Setup", "deadline": "2026-04-30", "status": "completed" },
-            { "description": "Schulung aller MA (Phase 1)", "deadline": "2026-06-30", "status": "in_progress" },
-            { "description": "Migration laufender Projekte", "deadline": "2026-08-31", "status": "open" },
-            { "description": "Go-Live & Abschluss Altdaten", "deadline": "2026-09-30", "status": "open" }
+            { "description": "Systemauswahl und Entscheidung", "status": "completed" },
+            { "description": "Lizenzierung und technisches Setup", "status": "completed" },
+            { "description": "Schulung aller MA (Phase 1)", "status": "in_progress" },
+            { "description": "Migration laufender Projekte", "status": "open" },
+            { "description": "Go-Live & Abschluss Altdaten", "status": "open" }
           ],
-          "notes": "Technisches Setup abgeschlossen. Schulungsphase hat begonnen."
+          "notes": "Schulungsphase hat begonnen."
         },
         {
           "id": "kpi_2_2",
           "original_goal": "Verbesserung der Termintreue bei Projektabschlüssen",
-          "smart_kpi": {
-            "specific": "Anteil termingerecht abgeschlossener Projekte (±5 Tage) auf 80% steigern",
-            "measurable": "Quartalsauswertung aus PM-System; aktuell 58%",
-            "achievable": "Durch frühere Eskalation und besseres Risikomanagement erreichbar",
-            "relevant": "Direkte Auswirkung auf Kundenzufriedenheit und Reputation",
-            "time_bound": "Ziel 80% bis Jahresende; Q2: 65%, Q3: 72%"
-          },
-          "type": "quantitative",
-          "target_value": 80,
-          "target_unit": "%",
-          "current_value": 58,
-          "progress_percent": 58,
-          "rag_status": "amber",
+          "kpi_typ": "Strategie",
+          "ebene": "Bund",
           "start_date": "2026-01-01",
           "end_date": "2026-12-31",
+          "progress_percent": 33,
+          "rag_status": "red",
           "milestones": [
-            { "description": "Analyse Verspätungsursachen Q1", "deadline": "2026-04-15", "status": "completed" },
-            { "description": "Einführung Frühwarnsystem", "deadline": "2026-06-30", "status": "in_progress" },
-            { "description": "Review Q2-Wert (Ziel: 65%)", "deadline": "2026-07-15", "status": "open" }
+            { "description": "Analyse Verspätungsursachen Q1", "status": "completed" },
+            { "description": "Einführung Frühwarnsystem", "status": "in_progress" },
+            { "description": "Review Q2-Wert (Ziel: 65%)", "status": "open" }
           ],
           "notes": ""
         }
@@ -128,54 +92,36 @@
       "kpis": [
         {
           "id": "kpi_3_1",
-          "original_goal": "Stärkung der internen Kommunikation und Zusammenarbeit im Team",
-          "smart_kpi": {
-            "specific": "Monatliche Teamkommunikation strukturieren",
-            "measurable": "Mitarbeiterbefragung: Zufriedenheit von 3,2 auf ≥ 4,0 steigern",
-            "achievable": "Durch regelmäßige Formate und klare Verantwortlichkeiten umsetzbar",
-            "relevant": "Stärkt Teamzusammenhalt und reduziert Informationsverluste",
-            "time_bound": "Neue Formate ab Q2; Messung per Jahresbefragung Dezember"
-          },
-          "type": "qualitative",
-          "target_value": 4,
-          "target_unit": "Skala 1–5",
-          "current_value": 3.2,
-          "progress_percent": 45,
-          "rag_status": "amber",
+          "original_goal": "Stärkung der internen Kommunikation und Zusammenarbeit",
+          "kpi_typ": "Organisation",
+          "ebene": "Niedersachsen",
           "start_date": "2026-01-01",
           "end_date": "2026-12-31",
+          "progress_percent": 25,
+          "rag_status": "red",
           "milestones": [
-            { "description": "Ist-Analyse Kommunikationsformate", "deadline": "2026-03-31", "status": "completed" },
-            { "description": "Neues Kommunikationskonzept vorgestellt", "deadline": "2026-05-31", "status": "in_progress" },
-            { "description": "Erste Umsetzungsrunde (3 Monate)", "deadline": "2026-08-31", "status": "open" },
-            { "description": "Zwischenmessung Zufriedenheit", "deadline": "2026-09-30", "status": "open" }
+            { "description": "Ist-Analyse Kommunikationsformate", "status": "completed" },
+            { "description": "Neues Kommunikationskonzept vorgestellt", "status": "in_progress" },
+            { "description": "Erste Umsetzungsrunde (3 Monate)", "status": "open" },
+            { "description": "Zwischenmessung Zufriedenheit", "status": "open" }
           ],
-          "notes": "Neues Format für Weekly wird aktuell erprobt."
+          "notes": "Neues Format für Weekly wird erprobt."
         },
         {
           "id": "kpi_3_2",
           "original_goal": "Erhöhung der Beteiligung an Weiterbildungsmaßnahmen",
-          "smart_kpi": {
-            "specific": "Mindestens 90% aller MA nehmen pro Jahr an mindestens einer Weiterbildung teil",
-            "measurable": "Auswertung Schulungsdatenbank; aktuell 55%",
-            "achievable": "Durch individuelles Angebot und Freistellungsregelung steigerbar",
-            "relevant": "Fördert Kompetenzentwicklung und Mitarbeiterbindung",
-            "time_bound": "Jahreswert bis 31.12.2026; Halbjahreswert ≥ 70% bis Juli"
-          },
-          "type": "quantitative",
-          "target_value": 90,
-          "target_unit": "%",
-          "current_value": 55,
-          "progress_percent": 55,
-          "rag_status": "red",
+          "kpi_typ": "Gesetz",
+          "ebene": "Niedersachsen",
           "start_date": "2026-01-01",
           "end_date": "2026-12-31",
+          "progress_percent": 33,
+          "rag_status": "red",
           "milestones": [
-            { "description": "Weiterbildungsbedarf erhoben", "deadline": "2026-03-31", "status": "completed" },
-            { "description": "Weiterbildungsplan je MA erstellt", "deadline": "2026-05-30", "status": "in_progress" },
-            { "description": "Halbjahreswert ≥ 70% erreicht", "deadline": "2026-07-31", "status": "open" }
+            { "description": "Weiterbildungsbedarf erhoben", "status": "completed" },
+            { "description": "Weiterbildungsplan je MA erstellt", "status": "in_progress" },
+            { "description": "Halbjahreswert ≥ 70% erreicht", "status": "open" }
           ],
-          "notes": "Engpässe bei Freistellung. Abstimmung mit Führungskraft läuft."
+          "notes": "Engpässe bei Freistellung."
         }
       ]
     },
@@ -187,29 +133,20 @@
         {
           "id": "kpi_4_1",
           "original_goal": "Ausbau bestehender Kundenbeziehungen und Steigerung des Cross-Selling",
-          "smart_kpi": {
-            "specific": "Bei den Top-20-Bestandskunden 5 Cross-Selling-Abschlüsse erzielen",
-            "measurable": "Anzahl Cross-Selling-Abschlüsse im CRM; Ziel: 5 bis Q4",
-            "achievable": "Auf Basis bestehender Beziehungen und neuer Produktlinie erreichbar",
-            "relevant": "Erhöht Umsatz je Kunde und stärkt Kundenbindung",
-            "time_bound": "5 Abschlüsse bis 31.12.2026"
-          },
-          "type": "quantitative",
-          "target_value": 5,
-          "target_unit": "Abschlüsse",
-          "current_value": 3,
-          "progress_percent": 60,
-          "rag_status": "green",
+          "kpi_typ": "Strategie",
+          "ebene": "Bayern",
           "start_date": "2026-01-01",
           "end_date": "2026-12-31",
+          "progress_percent": 60,
+          "rag_status": "green",
           "milestones": [
-            { "description": "Top-20-Kundenliste mit Potenzialanalyse", "deadline": "2026-03-31", "status": "completed" },
-            { "description": "Erstgespräche mit allen Top-20 geführt", "deadline": "2026-05-31", "status": "completed" },
-            { "description": "2. Cross-Selling-Abschluss", "deadline": "2026-06-30", "status": "completed" },
-            { "description": "4. Abschluss (Q3-Ziel)", "deadline": "2026-09-30", "status": "in_progress" },
-            { "description": "Jahresergebnis 5 Abschlüsse", "deadline": "2026-12-31", "status": "open" }
+            { "description": "Top-20-Kundenliste mit Potenzialanalyse", "status": "completed" },
+            { "description": "Erstgespräche mit allen Top-20 geführt", "status": "completed" },
+            { "description": "2. Cross-Selling-Abschluss", "status": "completed" },
+            { "description": "4. Abschluss (Q3-Ziel)", "status": "in_progress" },
+            { "description": "Jahresergebnis 5 Abschlüsse", "status": "open" }
           ],
-          "notes": "3 Abschlüsse bereits erzielt. Sehr guter Fortschritt."
+          "notes": "3 Abschlüsse bereits erzielt."
         }
       ]
     },
@@ -220,54 +157,20 @@
       "kpis": [
         {
           "id": "kpi_5_1",
-          "original_goal": "Einführung eines kontinuierlichen Verbesserungsprozesses (KVP) im Team",
-          "smart_kpi": {
-            "specific": "KVP-Struktur etablieren: monatliche Review-Runden, Maßnahmen-Tracker",
-            "measurable": "Mindestens 8 umgesetzte KVP-Maßnahmen im Jahr",
-            "achievable": "Mit bestehendem Team umsetzbar",
-            "relevant": "Steigert Prozessqualität und Eigenverantwortung",
-            "time_bound": "KVP-Start Q2; Jahresbilanz Dezember"
-          },
-          "type": "quantitative",
-          "target_value": 8,
-          "target_unit": "umgesetzte Maßnahmen",
-          "current_value": 2,
-          "progress_percent": 25,
-          "rag_status": "red",
+          "original_goal": "Einführung eines kontinuierlichen Verbesserungsprozesses (KVP)",
+          "kpi_typ": "Organisation",
+          "ebene": "Hessen",
           "start_date": "2026-04-01",
           "end_date": "2026-12-31",
-          "milestones": [
-            { "description": "KVP-Konzept und Format definiert", "deadline": "2026-04-30", "status": "completed" },
-            { "description": "Kick-off KVP-Runde", "deadline": "2026-05-15", "status": "completed" },
-            { "description": "4 Maßnahmen dokumentiert", "deadline": "2026-06-30", "status": "in_progress" },
-            { "description": "Zwischenbilanz Q3 (Ziel: 5 umgesetzt)", "deadline": "2026-09-30", "status": "open" }
-          ],
-          "notes": "Guter Start, aber Tempo muss noch zunehmen."
-        },
-        {
-          "id": "kpi_5_2",
-          "original_goal": "Reduzierung der Fehlerquote in der Auftragsbearbeitung",
-          "smart_kpi": {
-            "specific": "Fehlerquote von 4,2% auf unter 2% senken",
-            "measurable": "Monatliche Fehlerauswertung aus ERP-System",
-            "achievable": "Durch Checklisten und Schulungen erreichbar",
-            "relevant": "Reduziert Nachbearbeitungsaufwand und Kundenbeschwerden",
-            "time_bound": "Unter 3% bis Q2; unter 2% bis Jahresende"
-          },
-          "type": "quantitative",
-          "target_value": 2,
-          "target_unit": "% Fehlerquote",
-          "current_value": 3.1,
-          "progress_percent": 55,
+          "progress_percent": 50,
           "rag_status": "amber",
-          "start_date": "2026-01-01",
-          "end_date": "2026-12-31",
           "milestones": [
-            { "description": "Fehlerursachenanalyse abgeschlossen", "deadline": "2026-03-31", "status": "completed" },
-            { "description": "Checklisten eingeführt", "deadline": "2026-05-15", "status": "completed" },
-            { "description": "Fehlerquote unter 3% (Q2-Ziel)", "deadline": "2026-06-30", "status": "in_progress" }
+            { "description": "KVP-Konzept und Format definiert", "status": "completed" },
+            { "description": "Kick-off KVP-Runde", "status": "completed" },
+            { "description": "4 Maßnahmen dokumentiert", "status": "in_progress" },
+            { "description": "Zwischenbilanz Q3 (Ziel: 5 umgesetzt)", "status": "open" }
           ],
-          "notes": "Aktuell bei 3,1% – leicht über Q2-Ziel, aber Trend positiv."
+          "notes": "Guter Start, aber Tempo muss zunehmen."
         }
       ]
     },
@@ -278,28 +181,19 @@
       "kpis": [
         {
           "id": "kpi_6_1",
-          "original_goal": "Verbesserung der IT-Systemverfügbarkeit und Reduktion von Ausfallzeiten",
-          "smart_kpi": {
-            "specific": "Systemverfügbarkeit auf ≥ 99,5% steigern (aktuell 97,8%)",
-            "measurable": "Monatliches Monitoring-Report",
-            "achievable": "Durch proaktives Monitoring und Wartungsfenster erreichbar",
-            "relevant": "Sichert Arbeitsfähigkeit des gesamten Teams",
-            "time_bound": "Ab Q3 dauerhaft ≥ 99,5%"
-          },
-          "type": "quantitative",
-          "target_value": 99.5,
-          "target_unit": "% Verfügbarkeit",
-          "current_value": 98.4,
-          "progress_percent": 78,
-          "rag_status": "green",
+          "original_goal": "Verbesserung der IT-Systemverfügbarkeit",
+          "kpi_typ": "Organisation",
+          "ebene": "Bund",
           "start_date": "2026-01-01",
           "end_date": "2026-12-31",
+          "progress_percent": 67,
+          "rag_status": "amber",
           "milestones": [
-            { "description": "Schwachstellenanalyse abgeschlossen", "deadline": "2026-03-31", "status": "completed" },
-            { "description": "Monitoring-Dashboard eingerichtet", "deadline": "2026-05-31", "status": "completed" },
-            { "description": "Wartungsplan Q3/Q4 erstellt", "deadline": "2026-06-30", "status": "in_progress" }
+            { "description": "Schwachstellenanalyse abgeschlossen", "status": "completed" },
+            { "description": "Monitoring-Dashboard eingerichtet", "status": "completed" },
+            { "description": "Wartungsplan Q3/Q4 erstellt", "status": "in_progress" }
           ],
-          "notes": "Sehr guter Fortschritt. Verfügbarkeit bereits bei 98,4%."
+          "notes": "Verfügbarkeit bereits bei 98,4%."
         }
       ]
     },
@@ -311,52 +205,34 @@
         {
           "id": "kpi_7_1",
           "original_goal": "Automatisierung des monatlichen Management-Reportings",
-          "smart_kpi": {
-            "specific": "Manuellen Aufwand von 3 Tagen auf max. 0,5 Tage reduzieren",
-            "measurable": "Zeiterfassung Reporting-Aufwand; Ziel: ≤ 4 Std./Monat",
-            "achievable": "Mit Power BI und Datenbankanbindung umsetzbar",
-            "relevant": "Schafft Kapazität für Analysearbeit",
-            "time_bound": "Automatisierung bis Q3 2026 produktiv"
-          },
-          "type": "milestone",
-          "target_value": 4,
-          "target_unit": "Std./Monat",
-          "current_value": 18,
-          "progress_percent": 25,
-          "rag_status": "red",
+          "kpi_typ": "Organisation",
+          "ebene": "Schleswig-Holstein",
           "start_date": "2026-01-01",
           "end_date": "2026-09-30",
+          "progress_percent": 25,
+          "rag_status": "red",
           "milestones": [
-            { "description": "Anforderungsanalyse & Tool-Entscheidung", "deadline": "2026-03-31", "status": "completed" },
-            { "description": "Datenbankanbindung eingerichtet", "deadline": "2026-06-30", "status": "in_progress" },
-            { "description": "Pilotbericht automatisiert", "deadline": "2026-07-31", "status": "open" },
-            { "description": "Vollautomatisierung produktiv", "deadline": "2026-09-30", "status": "open" }
+            { "description": "Anforderungsanalyse & Tool-Entscheidung", "status": "completed" },
+            { "description": "Datenbankanbindung eingerichtet", "status": "in_progress" },
+            { "description": "Pilotbericht automatisiert", "status": "open" },
+            { "description": "Vollautomatisierung produktiv", "status": "open" }
           ],
-          "notes": "Datenbankanbindung dauert länger als geplant. Risiko für Q3-Termin."
+          "notes": "Datenbankanbindung dauert länger als geplant."
         },
         {
           "id": "kpi_7_2",
           "original_goal": "Einführung einer einheitlichen KPI-Systematik für alle Abteilungen",
-          "smart_kpi": {
-            "specific": "KPI-Framework für 4 Abteilungen entwickeln und implementieren",
-            "measurable": "4 von 4 Abteilungen mit dokumentiertem KPI-Set",
-            "achievable": "In Abstimmung mit Abteilungsleitungen umsetzbar",
-            "relevant": "Ermöglicht unternehmensweites Steuerungsreporting",
-            "time_bound": "2 Abteilungen bis Q2, alle 4 bis Q4 2026"
-          },
-          "type": "quantitative",
-          "target_value": 4,
-          "target_unit": "Abteilungen",
-          "current_value": 1,
-          "progress_percent": 25,
-          "rag_status": "amber",
+          "kpi_typ": "Strategie",
+          "ebene": "Schleswig-Holstein",
           "start_date": "2026-01-01",
           "end_date": "2026-12-31",
+          "progress_percent": 50,
+          "rag_status": "amber",
           "milestones": [
-            { "description": "KPI-Framework-Vorlage erstellt", "deadline": "2026-03-31", "status": "completed" },
-            { "description": "Abteilung 1 live", "deadline": "2026-05-31", "status": "completed" },
-            { "description": "Abteilung 2 live", "deadline": "2026-06-30", "status": "in_progress" },
-            { "description": "Abteilungen 3 & 4 live", "deadline": "2026-11-30", "status": "open" }
+            { "description": "KPI-Framework-Vorlage erstellt", "status": "completed" },
+            { "description": "Abteilung 1 live", "status": "completed" },
+            { "description": "Abteilung 2 live", "status": "in_progress" },
+            { "description": "Abteilungen 3 & 4 live", "status": "open" }
           ],
           "notes": ""
         }
@@ -370,26 +246,17 @@
         {
           "id": "kpi_8_1",
           "original_goal": "Optimierung der internen Ablage- und Dokumentenverwaltung",
-          "smart_kpi": {
-            "specific": "Einheitliche digitale Ablagestruktur in SharePoint einführen",
-            "measurable": "100% der Dokumentenkategorien migriert",
-            "achievable": "In Etappen umsetzbar",
-            "relevant": "Reduziert Suchzeiten und vermeidet Versionskonflikte",
-            "time_bound": "Migration bis Q3 abgeschlossen"
-          },
-          "type": "milestone",
-          "target_value": 100,
-          "target_unit": "% migriert",
-          "current_value": 85,
-          "progress_percent": 75,
-          "rag_status": "green",
+          "kpi_typ": "Organisation",
+          "ebene": "Bayern",
           "start_date": "2026-01-01",
           "end_date": "2026-08-31",
+          "progress_percent": 75,
+          "rag_status": "green",
           "milestones": [
-            { "description": "Ablagestruktur-Konzept genehmigt", "deadline": "2026-02-28", "status": "completed" },
-            { "description": "Migration Kategorien 1–3", "deadline": "2026-04-30", "status": "completed" },
-            { "description": "Migration Kategorien 4–6", "deadline": "2026-06-30", "status": "completed" },
-            { "description": "Abschlussmigration & Freigabe", "deadline": "2026-08-31", "status": "in_progress" }
+            { "description": "Ablagestruktur-Konzept genehmigt", "status": "completed" },
+            { "description": "Migration Kategorien 1–3", "status": "completed" },
+            { "description": "Migration Kategorien 4–6", "status": "completed" },
+            { "description": "Abschlussmigration & Freigabe", "status": "in_progress" }
           ],
           "notes": "Sehr guter Fortschritt. Fast fertig."
         }
