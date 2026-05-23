@@ -24,7 +24,12 @@
 <div class="edit-member-card" data-member-id="{{ member.id }}">
   <div class="edit-member-header">
     <div class="edit-member-fields">
-      <input type="text" class="edit-input edit-member-name" placeholder="Name" value="{{ member.name }}">
+      <select class="edit-input edit-member-name">
+        {% set names = ['MR','MM','AR','KD','JS','AS','MH','JO'] %}
+        {% for n in names %}
+        <option value="{{ n }}" {% if member.name == n %}selected{% endif %}>{{ n }}</option>
+        {% endfor %}
+      </select>
       <input type="text" class="edit-input edit-member-role" placeholder="Rolle / Funktion" value="{{ member.role }}">
     </div>
     <button class="btn-danger" onclick="removeMember(this)">✕ Entfernen</button>
@@ -122,6 +127,7 @@
 <script>
 var memberCount = {{ data.members | length }};
 
+var NAMEN = ["MR","MM","AR","KD","JS","AS","MH","JO"];
 var KPI_TYPEN = ["Gesetz","Strategie","Organisation","Sonstiges"];
 var EBENEN = ["Bund","Schleswig-Holstein","Niedersachsen","Hessen","Bayern"];
 
@@ -137,7 +143,7 @@ function addMember() {
   var html = '<div class="edit-member-card" data-member-id="' + id + '">' +
     '<div class="edit-member-header">' +
     '<div class="edit-member-fields">' +
-    '<input type="text" class="edit-input edit-member-name" placeholder="Name">' +
+    '<select class="edit-input edit-member-name">' + selectOptions(NAMEN, "MR") + '</select>' +
     '<input type="text" class="edit-input edit-member-role" placeholder="Rolle / Funktion">' +
     '</div><button class="btn-danger" onclick="removeMember(this)">✕ Entfernen</button></div>' +
     '<div class="edit-kpis-container"></div>' +
