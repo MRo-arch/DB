@@ -61,11 +61,9 @@
       <div class="team-kpi-body">
         <div class="team-kpi-header">
           <a href="/member/{{ kpi.member_id }}" class="team-kpi-member">{{ kpi.member_name }}</a>
-          <span class="kpi-type-badge kpi-type-{{ kpi.type }}">
-            {% if kpi.type == 'quantitative' %}Quantitativ
-            {% elif kpi.type == 'qualitative' %}Qualitativ
-            {% else %}Meilenstein{% endif %}
-          </span>
+          {% if kpi.kpi_typ %}
+          <span class="kpi-type-badge kpi-typ-{{ kpi.kpi_typ | lower }}">{{ kpi.kpi_typ }}</span>
+          {% endif %}
         </div>
         <p class="team-kpi-title">{{ kpi.original_goal }}</p>
 
@@ -82,7 +80,6 @@
         <div class="team-kpi-next-ms">
           <span class="ms-status-icon">{% if next_ms.status == 'in_progress' %}◎{% else %}○{% endif %}</span>
           <span>{{ next_ms.description }}</span>
-          <span class="ms-deadline">{{ next_ms.deadline }}</span>
         </div>
         {% endif %}
         {% endif %}
