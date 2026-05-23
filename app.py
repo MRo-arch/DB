@@ -9,7 +9,19 @@ UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
+DEFAULT_DATA = {
+    "generated_at": date.today().isoformat(),
+    "year": date.today().year,
+    "team_name": "Mein Team",
+    "members": []
+}
+
+
 def load_data():
+    if not os.path.exists(DATA_FILE):
+        os.makedirs(os.path.dirname(DATA_FILE), exist_ok=True)
+        save_data(DEFAULT_DATA)
+        return dict(DEFAULT_DATA)
     with open(DATA_FILE, "r", encoding="utf-8") as f:
         return json.load(f)
 
