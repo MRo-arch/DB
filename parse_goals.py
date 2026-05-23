@@ -65,21 +65,12 @@ def parse(path):
         kpi = {
             "id": kid,
             "original_goal": goal_title,
-            "smart_kpi": {
-                "specific": goal_title,
-                "measurable": "Wird im Gespräch konkretisiert",
-                "achievable": "Wird im Gespräch konkretisiert",
-                "relevant": "Wird im Gespräch konkretisiert",
-                "time_bound": f"Bis {end_date}"
-            },
-            "type": "milestone",
-            "target_value": 100,
-            "target_unit": "%",
-            "current_value": 0,
-            "progress_percent": 0,
-            "rag_status": "red",
+            "kpi_typ": "Sonstiges",
+            "ebene": "Bund",
             "start_date": start_date,
             "end_date": end_date,
+            "progress_percent": 0,
+            "rag_status": "red",
             "milestones": [],
             "notes": ""
         }
@@ -110,54 +101,55 @@ def parse(path):
         if not rows:
             continue
 
-        # Skip header row if first cell looks like a header
+        # Skip header row
         header = rows[0]
         start_idx = 1 if any(h.lower() in ("mitarbeiter", "name", "kpi", "ziel") for h in header) else 0
 
-        current_member_name = ""
-        current_role = ""
+        current_member = ""
         current_goal = ""
+        current_typ = "Sonstiges"
+        current_ebene = "Bund"
         current_start = ""
         current_end = ""
 
         for row in rows[start_idx:]:
-            if len(row) < 3:
+            if len(row) < 2:
                 continue
 
-            # Determine column mapping (flexible, 5-7 columns)
-            if len(row) >= 7:
-                col_member, col_role, col_goal, col_start, col_end, col_ms, col_ms_date = row[0], row[1], row[2], row[3], row[4], row[5], row[6]
-            elif len(row) >= 6:
-                col_member, col_role, col_goal, col_start, col_end, col_ms, col_ms_date = row[0], "", row[1], row[2], row[3], row[4], row[5]
-            elif len(row) >= 5:
-                col_member, col_role, col_goal, col_start, col_end, col_ms, col_ms_date = row[0], "", row[1], row[2], row[3], row[4], ""
-            else:
-                col_member, col_role, col_goal, col_start, col_end, col_ms, col_ms_date = row[0], "", row[1], row[2], "", row[3] if len(row) > 3 else "", ""
+            # Expected columns: Mitarbeiter | KPI | KPI Typ | Ebene | Start | Ende | Meilenstein
+            col_member = row[0] if len(row) > 0 else ""
+            col_goal   = row[1] if len(row) > 1 else ""
+            col_typ    = row[2] if len(row) > 2 else ""
+            col_ebene  = row[3] if len(row) > 3 else ""
+            col_start  = row[4] if len(row) > 4 else ""
+            col_end    = row[5] if len(row) > 5 else ""
+            col_ms     = row[6] if len(row) > 6 else ""
 
             if col_member:
-                current_member_name = col_member
-                current_role = col_role
+                current_member = col_member
             if col_goal:
                 current_goal = col_goal
+            if col_typ:
+                current_typ = col_typ
+            if col_ebene:
+                current_ebene = col_ebene
             if col_start:
                 current_start = parse_date(col_start)
             if col_end:
                 current_end = parse_date(col_end)
 
-            if not current_member_name or not current_goal:
+            if not current_member or not current_goal:
                 continue
 
-            member = get_or_create_member(current_member_name, current_role)
+            member = get_or_create_member(current_member)
             kpi = get_or_create_kpi(member, current_goal, current_start, current_end)
+            kpi["kpi_typ"] = current_typ
+            kpi["ebene"] = current_ebene
 
             if col_ms:
-                ms_date = parse_date(col_ms_date) if col_ms_date else current_end
-                today_str = date.today().isoformat()
-                status = "completed" if ms_date < today_str else "open"
                 kpi["milestones"].append({
                     "description": col_ms,
-                    "deadline": ms_date,
-                    "status": status
+                    "status": "open"
                 })
 
     for name in member_order:

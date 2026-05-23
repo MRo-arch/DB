@@ -24,17 +24,38 @@
 
     <div class="upload-info">
       <h3>Erwartetes Format der Word-Datei</h3>
-      <p>Die Datei sollte pro Mitarbeiter eine Tabelle mit folgenden Spalten enthalten:</p>
+      <p>Die Datei sollte eine Tabelle mit folgenden Spalten enthalten:</p>
       <table class="format-table">
         <thead>
-          <tr><th>Mitarbeiter</th><th>KPI-Bezeichnung</th><th>Startdatum</th><th>Enddatum</th><th>Meilenstein</th><th>Meilenstein-Datum</th></tr>
+          <tr><th>Mitarbeiter</th><th>KPI</th><th>KPI Typ</th><th>Ebene</th><th>Start</th><th>Ende</th><th>Meilenstein</th></tr>
         </thead>
         <tbody>
-          <tr><td>Anna Berger</td><td>CSAT steigern auf 85%</td><td>01.01.2026</td><td>31.12.2026</td><td>Schulung abgeschlossen</td><td>31.05.2026</td></tr>
-          <tr><td></td><td></td><td></td><td></td><td>Zielerreichung CSAT</td><td>31.12.2026</td></tr>
+          <tr><td>MR</td><td>Gesetz XY umsetzen</td><td>Gesetz</td><td>Bund</td><td>01.01.2026</td><td>31.12.2026</td><td>Entwurf erstellt</td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td>Abstimmung abgeschlossen</td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td>Umsetzung erfolgt</td></tr>
         </tbody>
       </table>
-      <p class="upload-note">Mehrere Meilensteine pro KPI: eine Zeile pro Meilenstein, Mitarbeiter und KPI-Name nur in der ersten Zeile.</p>
+      <p class="upload-note">Mehrere Meilensteine pro KPI: eine Zeile pro Meilenstein. Mitarbeiter, KPI, Typ, Ebene, Start und Ende nur in der ersten Zeile.</p>
+      <div class="upload-options-info">
+        <div>
+          <strong>KPI Typ:</strong>
+          <span class="kpi-type-badge kpi-typ-gesetz">Gesetz</span>
+          <span class="kpi-type-badge kpi-typ-strategie">Strategie</span>
+          <span class="kpi-type-badge kpi-typ-organisation">Organisation</span>
+          <span class="kpi-type-badge kpi-typ-sonstiges">Sonstiges</span>
+        </div>
+        <div style="margin-top:.5rem">
+          <strong>Ebene:</strong>
+          <span class="kpi-ebene-badge">Bund</span>
+          <span class="kpi-ebene-badge">Schleswig-Holstein</span>
+          <span class="kpi-ebene-badge">Niedersachsen</span>
+          <span class="kpi-ebene-badge">Hessen</span>
+          <span class="kpi-ebene-badge">Bayern</span>
+        </div>
+        <div style="margin-top:.5rem">
+          <strong>Mitarbeiter:</strong> MR, MM, AR, KD, JS, AS, MH, JO
+        </div>
+      </div>
     </div>
 
     <button type="submit" class="btn-save upload-submit">Datei einlesen und Dashboard aktualisieren</button>

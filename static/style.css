@@ -385,6 +385,7 @@ details[open] .smart-summary::before { content: "▼ "; }
 .format-table th { background: var(--surface); padding: .35rem .5rem; border: 1px solid var(--border); font-weight: 600; text-align: left; }
 .format-table td { padding: .3rem .5rem; border: 1px solid var(--border); }
 .upload-submit { align-self: flex-start; font-size: .9rem; padding: .5rem 1.25rem; }
+.upload-options-info { margin-top: .75rem; font-size: .82rem; color: var(--text-muted); display: flex; flex-direction: column; gap: .25rem; }
 
 /* ── Edit Form ───────────────────────────────────────── */
 .edit-toolbar {

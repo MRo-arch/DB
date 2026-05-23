@@ -162,6 +162,9 @@ def save_all():
     data["members"] = payload.get("members", data["members"])
     save_data(data)
     return jsonify({"ok": True})
+
+
+@app.route("/upload", methods=["GET", "POST"])
 def upload():
     data = load_data()
     if request.method == "POST":
