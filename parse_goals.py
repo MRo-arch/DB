@@ -79,19 +79,25 @@ def parse(path):
 
     def recalc_progress(kpi):
         ms = kpi.get("milestones", [])
-        if ms:
-            done = sum(1 for m in ms if m["status"] == "completed")
-            today = date.today()
-            pct = round((done / len(ms)) * 100)
-        else:
-            pct = 0
+        pct = round((sum(1 for m in ms if m["status"] == "completed") / len(ms)) * 100) if ms else 0
         kpi["progress_percent"] = pct
-        if pct >= 75:
-            kpi["rag_status"] = "green"
-        elif pct >= 40:
-            kpi["rag_status"] = "amber"
-        else:
-            kpi["rag_status"] = "red"
+        today = date.today()
+        start_str = kpi.get("start_date")
+        end_str = kpi.get("end_date")
+        try:
+            if start_str and end_str:
+                start = date.fromisoformat(start_str)
+                end = date.fromisoformat(end_str)
+                total_days = (end - start).days
+                if total_days > 0:
+                    elapsed = max(0, (today - start).days)
+                    expected = min(100, round((elapsed / total_days) * 100))
+                    delta = pct - expected
+                    kpi["rag_status"] = "green" if delta >= -15 else "amber" if delta >= -40 else "red"
+                    return
+        except ValueError:
+            pass
+        kpi["rag_status"] = "green" if pct >= 75 else "amber" if pct >= 40 else "red"
 
     for table in doc.tables:
         rows = [

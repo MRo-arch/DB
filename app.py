@@ -23,7 +23,17 @@ def load_data():
         save_data(DEFAULT_DATA)
         return dict(DEFAULT_DATA)
     with open(DATA_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+        data = json.load(f)
+    changed = False
+    for member in data.get("members", []):
+        for kpi in member.get("kpis", []):
+            new_rag = compute_rag(kpi.get("progress_percent", 0), kpi.get("start_date"), kpi.get("end_date"))
+            if new_rag != kpi.get("rag_status"):
+                kpi["rag_status"] = new_rag
+                changed = True
+    if changed:
+        save_data(data)
+    return data
 
 
 def save_data(data):
@@ -31,7 +41,24 @@ def save_data(data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-def compute_rag(progress):
+def compute_rag(progress, start_date=None, end_date=None):
+    today = date.today()
+    if start_date and end_date:
+        try:
+            start = date.fromisoformat(start_date)
+            end = date.fromisoformat(end_date)
+            total_days = (end - start).days
+            if total_days > 0:
+                elapsed = max(0, (today - start).days)
+                expected = min(100, round((elapsed / total_days) * 100))
+                delta = progress - expected
+                if delta >= -15:
+                    return "green"
+                elif delta >= -40:
+                    return "amber"
+                return "red"
+        except ValueError:
+            pass
     if progress >= 75:
         return "green"
     elif progress >= 40:
@@ -123,7 +150,7 @@ def update_kpi():
                 if kpi["id"] == kpi_id:
                     if progress is not None:
                         kpi["progress_percent"] = int(progress)
-                        kpi["rag_status"] = compute_rag(int(progress))
+                        kpi["rag_status"] = compute_rag(int(progress), kpi.get("start_date"), kpi.get("end_date"))
                     if notes is not None:
                         kpi["notes"] = notes
                     save_data(data)
@@ -148,7 +175,7 @@ def update_milestone():
                     if 0 <= milestone_idx < len(milestones):
                         milestones[milestone_idx]["status"] = status
                         new_progress = milestone_auto_progress(kpi)
-                        new_rag = compute_rag(new_progress)
+                        new_rag = compute_rag(new_progress, kpi.get("start_date"), kpi.get("end_date"))
                         kpi["progress_percent"] = new_progress
                         kpi["rag_status"] = new_rag
                         save_data(data)
