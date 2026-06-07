@@ -99,3 +99,12 @@ document.querySelectorAll(".progress-range").forEach(function(range) {
     document.getElementById("bar-" + kpiId).style.width = this.value + "%";
   });
 });
+
+function toggleInactive(btn) {
+  var hidden = btn.textContent.indexOf('anzeigen') !== -1;
+  document.querySelectorAll('.kpi-inactive').forEach(function(el) {
+    el.style.display = hidden ? '' : 'none';
+  });
+  btn.textContent = hidden ? 'Abgeschlossene / zukünftige KPIs ausblenden' : 'Abgeschlossene / zukünftige KPIs anzeigen';
+  btn.nextElementSibling.style.display = hidden ? 'none' : '';
+}

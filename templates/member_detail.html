@@ -24,11 +24,20 @@
   </div>
 </section>
 
+{% set inactive_count = member.kpis | rejectattr('is_active') | list | length %}
+{% if inactive_count > 0 %}
+<div class="toggle-bar no-print">
+  <button class="btn-toggle-inactive" onclick="toggleInactive(this)">Abgeschlossene / zukünftige KPIs anzeigen</button>
+  <span class="inactive-count">{{ inactive_count }} ausgeblendet</span>
+</div>
+{% endif %}
+
 <div class="kpi-list">
   {% for kpi in member.kpis %}
   {% set total_ms = kpi.milestones | length %}
   {% set done_ms  = kpi.milestones | selectattr('status', 'equalto', 'completed') | list | length %}
-  <div class="kpi-card rag-border-{{ kpi.rag_status }}" id="kpi-{{ kpi.id }}">
+  <div class="kpi-card rag-border-{{ kpi.rag_status }}{% if not kpi.is_active %} kpi-inactive{% endif %}" id="kpi-{{ kpi.id }}"
+    {% if not kpi.is_active %}style="display:none"{% endif %}>
 
     <div class="kpi-card-header">
       <div class="kpi-card-title-block">
@@ -40,7 +49,12 @@
           <span class="kpi-ebene-badge">{{ kpi.ebene }}</span>
           {% endif %}
         </div>
-        <h3 class="kpi-title">{{ kpi.original_goal }}</h3>
+        <h3 class="kpi-title">{{ kpi.original_goal }}
+          {% if not kpi.is_active %}
+            {% if kpi.progress_percent == 100 %}<span class="kpi-status-badge">✓ Abgeschlossen</span>
+            {% else %}<span class="kpi-status-badge">⏳ Startet später</span>{% endif %}
+          {% endif %}
+        </h3>
         {% if kpi.start_date or kpi.end_date %}
         <p class="kpi-laufzeit">Laufzeit: {{ kpi.start_date }} – {{ kpi.end_date }}</p>
         {% endif %}

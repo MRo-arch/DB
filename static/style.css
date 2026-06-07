@@ -480,3 +480,22 @@ select.edit-input { cursor: pointer; }
   .detail-identity { flex-wrap: wrap; }
   .progress-controls { flex-direction: column; align-items: flex-start; }
 }
+
+/* ── Inactive KPIs (completed / future) ──────────────── */
+.kpi-inactive { opacity: 0.55; }
+.kpi-inactive .kpi-card-header { background: var(--surface); }
+.kpi-status-badge {
+  font-size: .72rem; font-weight: 600; padding: .2rem .55rem;
+  border-radius: 20px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text-muted);
+  margin-left: .4rem;
+}
+.btn-toggle-inactive {
+  background: var(--card); color: var(--accent);
+  border: 1.5px solid var(--accent); border-radius: 8px;
+  padding: .4rem 1rem; font-size: .85rem; font-weight: 600;
+  cursor: pointer; transition: background .15s;
+}
+.btn-toggle-inactive:hover { background: #eef2ff; }
+.toggle-bar { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
+.inactive-count { font-size: .85rem; color: var(--text-muted); }

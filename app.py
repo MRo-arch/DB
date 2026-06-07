@@ -116,10 +116,10 @@ def team_kpis():
     all_kpis = []
     for member in data["members"]:
         for kpi in member["kpis"]:
-            if is_kpi_active(kpi):
-                all_kpis.append({**kpi, "member_name": member["name"], "member_id": member["id"]})
+            active = is_kpi_active(kpi)
+            all_kpis.append({**kpi, "member_name": member["name"], "member_id": member["id"], "is_active": active})
     rag_order = {"red": 0, "amber": 1, "green": 2}
-    all_kpis.sort(key=lambda k: rag_order.get(k["rag_status"], 1))
+    all_kpis.sort(key=lambda k: (0 if k["is_active"] else 1, rag_order.get(k["rag_status"], 1)))
     return render_template("team_kpis.html", all_kpis=all_kpis, data=data)
 
 
@@ -129,10 +129,10 @@ def member_detail(member_id):
     member = next((m for m in data["members"] if m["id"] == member_id), None)
     if not member:
         return "Mitglied nicht gefunden", 404
-    active_kpis = [k for k in member["kpis"] if is_kpi_active(k)]
-    member_active = {**member, "kpis": active_kpis}
+    all_kpis = [{**k, "is_active": is_kpi_active(k)} for k in member["kpis"]]
+    member_all = {**member, "kpis": all_kpis}
     summary = member_summary(member)
-    return render_template("member_detail.html", member=member_active, summary=summary, data=data)
+    return render_template("member_detail.html", member=member_all, summary=summary, data=data)
 
 
 @app.route("/api/update_kpi", methods=["POST"])

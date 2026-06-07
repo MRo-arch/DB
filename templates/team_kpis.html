@@ -35,16 +35,24 @@
   </div>
 </div>
 
+{% set inactive_count = all_kpis | rejectattr('is_active') | list | length %}
+{% if inactive_count > 0 %}
+<div class="toggle-bar no-print">
+  <button class="btn-toggle-inactive" onclick="toggleInactive(this)">Abgeschlossene / zukünftige KPIs anzeigen</button>
+  <span class="inactive-count">{{ inactive_count }} ausgeblendet</span>
+</div>
+{% endif %}
+
 {% if not all_kpis %}
 <div class="empty-state">
-  <p>Keine aktiven KPIs vorhanden.</p>
+  <p>Keine KPIs vorhanden.</p>
 </div>
 {% else %}
 
 <div class="team-kpi-list">
   {% set ns = namespace(current_rag='') %}
   {% for kpi in all_kpis %}
-    {% if kpi.rag_status != ns.current_rag %}
+    {% if kpi.is_active and kpi.rag_status != ns.current_rag %}
       {% set ns.current_rag = kpi.rag_status %}
       <div class="rag-section-header rag-header-{{ kpi.rag_status }}">
         {% if kpi.rag_status == 'red' %}Handlungsbedarf
@@ -53,7 +61,8 @@
       </div>
     {% endif %}
 
-    <div class="team-kpi-row rag-border-{{ kpi.rag_status }}">
+    <div class="team-kpi-row rag-border-{{ kpi.rag_status }}{% if not kpi.is_active %} kpi-inactive{% endif %}"
+      {% if not kpi.is_active %}style="display:none"{% endif %}>
       <div class="team-kpi-rag">
         <span class="rag-dot rag-dot-{{ kpi.rag_status }}"></span>
       </div>
@@ -63,6 +72,10 @@
           <a href="/member/{{ kpi.member_id }}" class="team-kpi-member">{{ kpi.member_name }}</a>
           {% if kpi.kpi_typ %}
           <span class="kpi-type-badge kpi-typ-{{ kpi.kpi_typ | lower }}">{{ kpi.kpi_typ }}</span>
+          {% endif %}
+          {% if not kpi.is_active %}
+            {% if kpi.progress_percent == 100 %}<span class="kpi-status-badge">✓ Abgeschlossen</span>
+            {% else %}<span class="kpi-status-badge">⏳ Startet später</span>{% endif %}
           {% endif %}
         </div>
         <p class="team-kpi-title">{{ kpi.original_goal }}</p>
