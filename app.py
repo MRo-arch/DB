@@ -5,8 +5,19 @@ from datetime import date, timedelta
 
 app = Flask(__name__)
 DATA_FILE = os.path.join(os.path.dirname(__file__), "data", "kpis.json")
+GESETZE_FILE = os.path.join(os.path.dirname(__file__), "data", "gesetze.json")
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+STAGES = {
+    0: "Eckpunkte / Konsultation (vor Referentenentwurf)",
+    1: "Referentenentwurf",
+    2: "Kabinettsentwurf",
+    3: "Bundestag (1. Lesung / Ausschuss)",
+    4: "Bundestag (2./3. Lesung)",
+    5: "Bundesrat",
+    6: "Verkündet / in Kraft",
+}
 
 
 DEFAULT_DATA = {
@@ -38,6 +49,22 @@ def load_data():
 
 def save_data(data):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+
+DEFAULT_GESETZE = {"generated_at": date.today().isoformat(), "gesetze": []}
+
+
+def load_gesetze():
+    if not os.path.exists(GESETZE_FILE):
+        save_gesetze(DEFAULT_GESETZE)
+        return dict(DEFAULT_GESETZE)
+    with open(GESETZE_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def save_gesetze(data):
+    with open(GESETZE_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
@@ -200,6 +227,51 @@ def save_all():
     data["team_name"] = payload.get("team_name", data["team_name"])
     data["members"] = payload.get("members", data["members"])
     save_data(data)
+    return jsonify({"ok": True})
+
+
+@app.route("/gesetze")
+def gesetze_overview():
+    data = load_data()
+    gdata = load_gesetze()
+    gesetze = sorted(gdata["gesetze"], key=lambda g: (g["stufe"], g["status_datum"]))
+    counts = {}
+    for g in gdata["gesetze"]:
+        counts[g["stufe"]] = counts.get(g["stufe"], 0) + 1
+    return render_template(
+        "gesetze.html", data=data, gdata=gdata, gesetze=gesetze, stages=STAGES, counts=counts
+    )
+
+
+@app.route("/gesetze/edit")
+def gesetze_edit():
+    data = load_data()
+    gdata = load_gesetze()
+    gesetze = sorted(gdata["gesetze"], key=lambda g: g["name"])
+    return render_template("gesetze_edit.html", data=data, gdata=gdata, gesetze=gesetze, stages=STAGES)
+
+
+@app.route("/api/update_gesetz", methods=["POST"])
+def update_gesetz():
+    payload = request.get_json()
+    gesetz_id = payload.get("id")
+    gdata = load_gesetze()
+    for g in gdata["gesetze"]:
+        if g["id"] == gesetz_id:
+            for field in ("stufe", "status_text", "status_datum", "naechster_schritt", "quelle_name", "quelle_url", "notizen", "typ", "tso_relevant"):
+                if field in payload:
+                    g[field] = payload[field]
+            save_gesetze(gdata)
+            return jsonify({"ok": True})
+    return jsonify({"ok": False}), 404
+
+
+@app.route("/api/gesetze/save_all", methods=["POST"])
+def gesetze_save_all():
+    payload = request.get_json()
+    gdata = load_gesetze()
+    gdata["gesetze"] = payload.get("gesetze", gdata["gesetze"])
+    save_gesetze(gdata)
     return jsonify({"ok": True})
 
 

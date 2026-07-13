@@ -499,3 +499,63 @@ select.edit-input { cursor: pointer; }
 .btn-toggle-inactive:hover { background: #eef2ff; }
 .toggle-bar { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
 .inactive-count { font-size: .85rem; color: var(--text-muted); }
+
+/* ── Gesetze-Monitoring: Stufen-Badges ──────────────────── */
+.stufe-badge {
+  display: inline-flex; align-items: center; white-space: nowrap;
+  padding: .2rem .6rem; border-radius: 999px; font-size: .7rem;
+  font-weight: 700; letter-spacing: .03em;
+}
+.stufe-0 { background: #f8fafc; color: #64748b; border: 1px dashed #cbd5e1; }
+.stufe-1 { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+.stufe-2 { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.stufe-3 { background: var(--amber-bg); color: #92400e; border: 1px solid var(--amber-border); }
+.stufe-4 { background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; }
+.stufe-5 { background: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe; }
+.stufe-6 { background: var(--green-bg); color: #166534; border: 1px solid var(--green-border); }
+
+.gesetze-table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; }
+.gesetze-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.gesetze-table th {
+  text-align: left; padding: .75rem 1rem; font-size: .72rem; text-transform: uppercase;
+  letter-spacing: .05em; color: var(--text-muted); border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.gesetze-table td { padding: .85rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+.gesetze-table tr:last-child td { border-bottom: none; }
+.gesetze-table tr:hover td { background: var(--surface); }
+.gesetz-name { font-weight: 600; }
+.gesetz-kurzname { font-weight: 600; }
+.gesetz-fullname { display: block; font-size: .78rem; color: var(--text-muted); margin-top: .15rem; }
+.gesetz-thema { color: var(--text-muted); font-size: .82rem; }
+.gesetz-datum { color: var(--text-muted); font-size: .8rem; white-space: nowrap; }
+.gesetz-next { font-size: .82rem; }
+.gesetz-source a { color: var(--accent); font-size: .8rem; }
+.gesetz-source a:hover { text-decoration: underline; }
+.gesetze-legend { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+
+.tso-badge {
+  display: inline-flex; align-items: center; white-space: nowrap;
+  padding: .15rem .5rem; border-radius: 999px; font-size: .68rem;
+  font-weight: 700; letter-spacing: .02em; margin-left: .35rem;
+  background: #ecfeff; color: #0e7490; border: 1px solid #a5f3fc;
+}
+.typ-badge {
+  display: inline-block; font-size: .7rem; color: var(--text-muted);
+  font-style: italic; margin-top: .1rem;
+}
+.gesetze-filter-bar {
+  display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
+  margin-bottom: 1.25rem; font-size: .88rem;
+}
+.gesetze-filter-bar label { display: flex; align-items: center; gap: .4rem; cursor: pointer; }
+.gesetz-erledigt { display: none; }
+
+/* ── Gesetze-Monitoring: Edit-Ansicht ────────────────────── */
+.gesetz-edit-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.25rem; margin-bottom: 1rem;
+}
+.gesetz-edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.gesetz-edit-grid .full-width { grid-column: 1 / -1; }
+@media (max-width: 700px) { .gesetz-edit-grid { grid-template-columns: 1fr; } }

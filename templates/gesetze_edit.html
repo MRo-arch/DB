@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% block title %}Gesetze pflegen{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <a href="/gesetze" class="back-link">← Zum Monitoring</a>
+  <h1>Energiegesetze pflegen</h1>
+  <p class="page-subtitle">Status aktualisieren oder neues Gesetzgebungsverfahren erfassen</p>
+</section>
+
+<div class="edit-toolbar no-print">
+  <button class="btn-save" onclick="saveAllGesetze()">💾 Alle Änderungen speichern</button>
+  <button class="btn-outline" onclick="addGesetz()">+ Gesetz hinzufügen</button>
+  <span class="edit-hint" id="save-status"></span>
+</div>
+
+<div id="gesetze-container">
+{% for g in gesetze %}
+<div class="gesetz-edit-card" data-gesetz-id="{{ g.id }}">
+  <div class="gesetz-edit-grid">
+    <div class="edit-field-row full-width">
+      <label>Kurzname</label>
+      <input type="text" class="edit-input f-kurzname" value="{{ g.kurzname }}">
+    </div>
+    <div class="edit-field-row full-width">
+      <label>Vollständiger Titel des Gesetzes</label>
+      <input type="text" class="edit-input f-name" value="{{ g.name }}">
+    </div>
+    <div class="edit-field-row">
+      <label>Thema</label>
+      <input type="text" class="edit-input f-thema" value="{{ g.thema }}">
+    </div>
+    <div class="edit-field-row">
+      <label>Verfahrensstand</label>
+      <select class="edit-input f-stufe">
+        {% for stufe, label in stages.items() %}
+        <option value="{{ stufe }}" {% if g.stufe == stufe %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="edit-field-row">
+      <label>Art des Vorhabens</label>
+      <select class="edit-input f-typ">
+        <option value="Gesetz" {% if g.typ == 'Gesetz' or not g.typ %}selected{% endif %}>Gesetz</option>
+        <option value="Verordnung / Festlegung (BNetzA)" {% if g.typ == 'Verordnung / Festlegung (BNetzA)' %}selected{% endif %}>Verordnung / Festlegung (BNetzA)</option>
+        <option value="Verordnung / Förderrichtlinie" {% if g.typ == 'Verordnung / Förderrichtlinie' %}selected{% endif %}>Verordnung / Förderrichtlinie</option>
+      </select>
+    </div>
+    <div class="edit-field-row">
+      <label>&nbsp;</label>
+      <label style="display:flex;align-items:center;gap:.4rem;font-weight:400;">
+        <input type="checkbox" class="f-tso" {% if g.tso_relevant %}checked{% endif %}> Relevant für Übertragungsnetzbetreiber (ÜNB)
+      </label>
+    </div>
+    <div class="edit-field-row full-width">
+      <label>Status (Kurzbeschreibung)</label>
+      <input type="text" class="edit-input f-status-text" value="{{ g.status_text }}">
+    </div>
+    <div class="edit-field-row">
+      <label>Datum des letzten Standes</label>
+      <input type="date" class="edit-input f-status-datum" value="{{ g.status_datum }}">
+    </div>
+    <div class="edit-field-row">
+      <label>Quelle (Bezeichnung)</label>
+      <input type="text" class="edit-input f-quelle-name" value="{{ g.quelle_name }}">
+    </div>
+    <div class="edit-field-row full-width">
+      <label>Nächster erwarteter Schritt</label>
+      <input type="text" class="edit-input f-naechster" value="{{ g.naechster_schritt }}">
+    </div>
+    <div class="edit-field-row full-width">
+      <label>Quelle (Link)</label>
+      <input type="url" class="edit-input f-quelle-url" value="{{ g.quelle_url }}">
+    </div>
+    <div class="edit-field-row full-width">
+      <label>Notizen</label>
+      <input type="text" class="edit-input f-notizen" value="{{ g.notizen }}">
+    </div>
+  </div>
+  <div style="margin-top:.75rem;">
+    <button class="btn-danger btn-sm" onclick="removeGesetz(this)">✕ Gesetz entfernen</button>
+  </div>
+</div>
+{% endfor %}
+</div>
+
+<div class="edit-toolbar no-print" style="margin-top:2rem;">
+  <button class="btn-save" onclick="saveAllGesetze()">💾 Alle Änderungen speichern</button>
+  <span class="edit-hint" id="save-status-bottom"></span>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function slugifyGesetz(str) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+function addGesetz() {
+  var html = '<div class="gesetz-edit-card" data-gesetz-id="new_' + Date.now() + '">' +
+    '<div class="gesetz-edit-grid">' +
+    '<div class="edit-field-row full-width"><label>Kurzname</label><input type="text" class="edit-input f-kurzname"></div>' +
+    '<div class="edit-field-row full-width"><label>Vollständiger Titel des Gesetzes</label><input type="text" class="edit-input f-name"></div>' +
+    '<div class="edit-field-row"><label>Thema</label><input type="text" class="edit-input f-thema"></div>' +
+    '<div class="edit-field-row"><label>Verfahrensstand</label><select class="edit-input f-stufe">' +
+    {% for stufe, label in stages.items() %}
+    '<option value="{{ stufe }}">{{ label }}</option>' +
+    {% endfor %}
+    '</select></div>' +
+    '<div class="edit-field-row"><label>Art des Vorhabens</label><select class="edit-input f-typ">' +
+    '<option value="Gesetz">Gesetz</option>' +
+    '<option value="Verordnung / Festlegung (BNetzA)">Verordnung / Festlegung (BNetzA)</option>' +
+    '<option value="Verordnung / Förderrichtlinie">Verordnung / Förderrichtlinie</option>' +
+    '</select></div>' +
+    '<div class="edit-field-row"><label>&nbsp;</label><label style="display:flex;align-items:center;gap:.4rem;font-weight:400;">' +
+    '<input type="checkbox" class="f-tso"> Relevant für Übertragungsnetzbetreiber (ÜNB)</label></div>' +
+    '<div class="edit-field-row full-width"><label>Status (Kurzbeschreibung)</label><input type="text" class="edit-input f-status-text"></div>' +
+    '<div class="edit-field-row"><label>Datum des letzten Standes</label><input type="date" class="edit-input f-status-datum"></div>' +
+    '<div class="edit-field-row"><label>Quelle (Bezeichnung)</label><input type="text" class="edit-input f-quelle-name"></div>' +
+    '<div class="edit-field-row full-width"><label>Nächster erwarteter Schritt</label><input type="text" class="edit-input f-naechster"></div>' +
+    '<div class="edit-field-row full-width"><label>Quelle (Link)</label><input type="url" class="edit-input f-quelle-url"></div>' +
+    '<div class="edit-field-row full-width"><label>Notizen</label><input type="text" class="edit-input f-notizen"></div>' +
+    '</div>' +
+    '<div style="margin-top:.75rem;"><button class="btn-danger btn-sm" onclick="removeGesetz(this)">✕ Gesetz entfernen</button></div>' +
+    '</div>';
+  document.getElementById("gesetze-container").insertAdjacentHTML("beforeend", html);
+}
+
+function removeGesetz(btn) {
+  if (confirm("Gesetz wirklich entfernen?")) btn.closest(".gesetz-edit-card").remove();
+}
+
+function saveAllGesetze() {
+  var gesetze = [];
+  document.querySelectorAll(".gesetz-edit-card").forEach(function(card) {
+    var kurzname = card.querySelector(".f-kurzname").value.trim();
+    var name = card.querySelector(".f-name").value.trim();
+    if (!kurzname || !name) return;
+
+    var id = card.dataset.gesetzId && !card.dataset.gesetzId.startsWith("new_")
+      ? card.dataset.gesetzId : slugifyGesetz(kurzname) + "-" + Date.now();
+
+    gesetze.push({
+      id: id,
+      kurzname: kurzname,
+      name: name,
+      thema: card.querySelector(".f-thema").value.trim(),
+      stufe: parseInt(card.querySelector(".f-stufe").value),
+      typ: card.querySelector(".f-typ").value,
+      tso_relevant: card.querySelector(".f-tso").checked,
+      status_text: card.querySelector(".f-status-text").value.trim(),
+      status_datum: card.querySelector(".f-status-datum").value,
+      naechster_schritt: card.querySelector(".f-naechster").value.trim(),
+      quelle_name: card.querySelector(".f-quelle-name").value.trim(),
+      quelle_url: card.querySelector(".f-quelle-url").value.trim(),
+      notizen: card.querySelector(".f-notizen").value.trim()
+    });
+  });
+
+  fetch("/api/gesetze/save_all", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ gesetze: gesetze })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    var msg = data.ok ? "✓ Gespeichert" : "Fehler!";
+    ["save-status","save-status-bottom"].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) { el.textContent = msg; setTimeout(function() { el.textContent=""; }, 2500); }
+    });
+  });
+}
+</script>
+{% endblock %}

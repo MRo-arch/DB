@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Energiegesetze-Monitoring{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <h1>Energiepolitische Gesetze · Monitoring</h1>
+  <p class="page-subtitle">Angekündigte und laufende Gesetzgebungsverfahren im Energiebereich · Stand {{ gdata.generated_at }}</p>
+  <div class="gesetze-legend">
+    {% for stufe, label in stages.items() %}
+    <span class="stufe-badge stufe-{{ stufe }}">{{ label }}</span>
+    {% endfor %}
+    <span class="tso-badge">ÜNB-relevant</span>
+  </div>
+</section>
+
+<div class="team-stats-bar">
+  {% for stufe, label in stages.items() %}
+  <div class="stat-item">
+    <span class="stat-num">{{ counts.get(stufe, 0) }}</span>
+    <span class="stat-label">{{ label }}</span>
+  </div>
+  {% endfor %}
+  <div class="stat-item">
+    <span class="stat-num">{{ gesetze | length }}</span>
+    <span class="stat-label">Gesamt</span>
+  </div>
+</div>
+
+<div class="edit-toolbar no-print" style="margin-bottom:1.25rem;">
+  <a href="/gesetze/edit" class="btn-outline">Status pflegen / Gesetz hinzufügen</a>
+</div>
+
+<div class="gesetze-filter-bar no-print">
+  <label><input type="checkbox" id="filter-tso" onchange="applyGesetzeFilter()"> Nur für Übertragungsnetzbetreiber (ÜNB) relevante Gesetze anzeigen</label>
+  <label><input type="checkbox" id="filter-erledigt" onchange="applyGesetzeFilter()"> Bereits verabschiedete Gesetze auch anzeigen</label>
+</div>
+
+{% if not gesetze %}
+<div class="empty-state"><p>Noch keine Gesetze erfasst.</p></div>
+{% else %}
+<div class="gesetze-table-wrap">
+  <table class="gesetze-table">
+    <thead>
+      <tr>
+        <th>Gesetz</th>
+        <th>Thema</th>
+        <th>Status</th>
+        <th>Stand</th>
+        <th>Nächster Schritt</th>
+        <th>Quelle</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for g in gesetze %}
+      <tr class="{% if g.stufe == 6 %}gesetz-erledigt{% endif %}" data-stufe="{{ g.stufe }}" data-tso="{{ 'true' if g.tso_relevant else 'false' }}">
+        <td>
+          <span class="gesetz-kurzname">{{ g.kurzname }}</span>{% if g.tso_relevant %}<span class="tso-badge">ÜNB</span>{% endif %}
+          <span class="gesetz-fullname">{{ g.name }}</span>
+          {% if g.typ and g.typ != 'Gesetz' %}<span class="typ-badge">{{ g.typ }}</span>{% endif %}
+        </td>
+        <td class="gesetz-thema">{{ g.thema }}</td>
+        <td>
+          <span class="stufe-badge stufe-{{ g.stufe }}">{{ stages[g.stufe] }}</span>
+          <div class="gesetz-fullname">{{ g.status_text }}</div>
+        </td>
+        <td class="gesetz-datum">{{ g.status_datum }}</td>
+        <td class="gesetz-next">{{ g.naechster_schritt }}</td>
+        <td class="gesetz-source">
+          {% if g.quelle_url %}<a href="{{ g.quelle_url }}" target="_blank" rel="noopener">{{ g.quelle_name }}</a>{% else %}{{ g.quelle_name }}{% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function applyGesetzeFilter() {
+  var showTsoOnly = document.getElementById("filter-tso").checked;
+  var showErledigt = document.getElementById("filter-erledigt").checked;
+  document.querySelectorAll(".gesetze-table tbody tr").forEach(function(row) {
+    var isErledigt = row.dataset.stufe === "6";
+    var isTso = row.dataset.tso === "true";
+    var visible = (showErledigt || !isErledigt) && (!showTsoOnly || isTso);
+    row.style.display = visible ? "" : "none";
+  });
+}
+</script>
+{% endblock %}

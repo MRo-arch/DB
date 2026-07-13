@@ -19,6 +19,8 @@
         <span class="nav-sep">|</span>
         <a href="/team-kpis" class="nav-link {% if request.path == '/team-kpis' %}active{% endif %}">Team-KPIs</a>
         <span class="nav-sep">|</span>
+        <a href="/gesetze" class="nav-link {% if request.path.startswith('/gesetze') %}active{% endif %}">Energiegesetze-Monitoring</a>
+        <span class="nav-sep">|</span>
         <a href="/edit" class="nav-link {% if request.path == '/edit' %}active{% endif %}">Daten eingeben</a>
         <span class="nav-sep">|</span>
         <a href="/upload" class="nav-link {% if request.path == '/upload' %}active{% endif %}">Word hochladen</a>
