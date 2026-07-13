@@ -506,6 +506,7 @@ select.edit-input { cursor: pointer; }
   padding: .2rem .6rem; border-radius: 999px; font-size: .7rem;
   font-weight: 700; letter-spacing: .03em;
 }
+.stufe-0 { background: #f8fafc; color: #64748b; border: 1px dashed #cbd5e1; }
 .stufe-1 { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
 .stufe-2 { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
 .stufe-3 { background: var(--amber-bg); color: #92400e; border: 1px solid var(--amber-border); }
@@ -532,6 +533,23 @@ select.edit-input { cursor: pointer; }
 .gesetz-source a { color: var(--accent); font-size: .8rem; }
 .gesetz-source a:hover { text-decoration: underline; }
 .gesetze-legend { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+
+.tso-badge {
+  display: inline-flex; align-items: center; white-space: nowrap;
+  padding: .15rem .5rem; border-radius: 999px; font-size: .68rem;
+  font-weight: 700; letter-spacing: .02em; margin-left: .35rem;
+  background: #ecfeff; color: #0e7490; border: 1px solid #a5f3fc;
+}
+.typ-badge {
+  display: inline-block; font-size: .7rem; color: var(--text-muted);
+  font-style: italic; margin-top: .1rem;
+}
+.gesetze-filter-bar {
+  display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
+  margin-bottom: 1.25rem; font-size: .88rem;
+}
+.gesetze-filter-bar label { display: flex; align-items: center; gap: .4rem; cursor: pointer; }
+.gesetz-erledigt { display: none; }
 
 /* ── Gesetze-Monitoring: Edit-Ansicht ────────────────────── */
 .gesetz-edit-card {

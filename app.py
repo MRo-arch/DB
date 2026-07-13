@@ -10,6 +10,7 @@ UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 STAGES = {
+    0: "Eckpunkte / Konsultation (vor Referentenentwurf)",
     1: "Referentenentwurf",
     2: "Kabinettsentwurf",
     3: "Bundestag (1. Lesung / Ausschuss)",
@@ -257,7 +258,7 @@ def update_gesetz():
     gdata = load_gesetze()
     for g in gdata["gesetze"]:
         if g["id"] == gesetz_id:
-            for field in ("stufe", "status_text", "status_datum", "naechster_schritt", "quelle_name", "quelle_url", "notizen"):
+            for field in ("stufe", "status_text", "status_datum", "naechster_schritt", "quelle_name", "quelle_url", "notizen", "typ", "tso_relevant"):
                 if field in payload:
                     g[field] = payload[field]
             save_gesetze(gdata)

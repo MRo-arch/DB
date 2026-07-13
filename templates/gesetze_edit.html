@@ -38,6 +38,20 @@
         {% endfor %}
       </select>
     </div>
+    <div class="edit-field-row">
+      <label>Art des Vorhabens</label>
+      <select class="edit-input f-typ">
+        <option value="Gesetz" {% if g.typ == 'Gesetz' or not g.typ %}selected{% endif %}>Gesetz</option>
+        <option value="Verordnung / Festlegung (BNetzA)" {% if g.typ == 'Verordnung / Festlegung (BNetzA)' %}selected{% endif %}>Verordnung / Festlegung (BNetzA)</option>
+        <option value="Verordnung / Förderrichtlinie" {% if g.typ == 'Verordnung / Förderrichtlinie' %}selected{% endif %}>Verordnung / Förderrichtlinie</option>
+      </select>
+    </div>
+    <div class="edit-field-row">
+      <label>&nbsp;</label>
+      <label style="display:flex;align-items:center;gap:.4rem;font-weight:400;">
+        <input type="checkbox" class="f-tso" {% if g.tso_relevant %}checked{% endif %}> Relevant für Übertragungsnetzbetreiber (ÜNB)
+      </label>
+    </div>
     <div class="edit-field-row full-width">
       <label>Status (Kurzbeschreibung)</label>
       <input type="text" class="edit-input f-status-text" value="{{ g.status_text }}">
@@ -93,6 +107,13 @@ function addGesetz() {
     '<option value="{{ stufe }}">{{ label }}</option>' +
     {% endfor %}
     '</select></div>' +
+    '<div class="edit-field-row"><label>Art des Vorhabens</label><select class="edit-input f-typ">' +
+    '<option value="Gesetz">Gesetz</option>' +
+    '<option value="Verordnung / Festlegung (BNetzA)">Verordnung / Festlegung (BNetzA)</option>' +
+    '<option value="Verordnung / Förderrichtlinie">Verordnung / Förderrichtlinie</option>' +
+    '</select></div>' +
+    '<div class="edit-field-row"><label>&nbsp;</label><label style="display:flex;align-items:center;gap:.4rem;font-weight:400;">' +
+    '<input type="checkbox" class="f-tso"> Relevant für Übertragungsnetzbetreiber (ÜNB)</label></div>' +
     '<div class="edit-field-row full-width"><label>Status (Kurzbeschreibung)</label><input type="text" class="edit-input f-status-text"></div>' +
     '<div class="edit-field-row"><label>Datum des letzten Standes</label><input type="date" class="edit-input f-status-datum"></div>' +
     '<div class="edit-field-row"><label>Quelle (Bezeichnung)</label><input type="text" class="edit-input f-quelle-name"></div>' +
@@ -125,6 +146,8 @@ function saveAllGesetze() {
       name: name,
       thema: card.querySelector(".f-thema").value.trim(),
       stufe: parseInt(card.querySelector(".f-stufe").value),
+      typ: card.querySelector(".f-typ").value,
+      tso_relevant: card.querySelector(".f-tso").checked,
       status_text: card.querySelector(".f-status-text").value.trim(),
       status_datum: card.querySelector(".f-status-datum").value,
       naechster_schritt: card.querySelector(".f-naechster").value.trim(),
